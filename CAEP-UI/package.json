@@ -1,0 +1,53 @@
+{
+	"name": "caep-ui",
+	"version": "1.0.0",
+	"description": "CAEP UI for js.",
+	"lockfileVersion": 1,
+	"scripts": {
+		"watch": "parcel ./index.html & parcel watch ./index.html",
+		"package": "parcel build ./index.html",
+		"build": "webpack build"
+	},
+	"targets": {
+		"default": {
+			"sourceMap": true,
+			"optimize": false
+		}
+	},
+	"types": "./types/*.d.ts",
+	"dependencies": {
+		"@adobe/react-spectrum": "^3.14.1",
+		"@spectrum-icons/workflow": "^3.2.3",
+		"events": "^3.3.0",
+		"framer-motion": "^6.3.3",
+		"lodash": "^4.17.21",
+		"path-browserify": "^1.0.1",
+		"process": "^0.11.10",
+		"q": "^1.5.1",
+		"react": "^17.0.2",
+		"react-custom-scrollbars-2": "^4.4.0",
+		"react-dom": "^17.0.2"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.16.7",
+		"@babel/preset-env": "^7.16.7",
+		"@babel/preset-react": "^7.16.7",
+		"@parcel/resolver-default": "^2.3.1",
+		"@types/node": "^18.0.0",
+		"@types/path-browserify": "^1.0.0",
+		"@types/q": "^1.5.5",
+		"@types/react": "^18.0.14",
+		"@types/react-color": "^3.0.6",
+		"@types/react-dom": "^18.0.5",
+		"@types/lodash": "^4.14.182",
+		"babel-loader": "^8.2.3",
+		"babel-polyfill": "^6.26.0",
+		"css-loader": "^6.5.1",
+		"parcel": "latest",
+		"style-loader": "^3.3.1",
+		"ts-node": "^10.8.1",
+		"webpack": "^5.65.0",
+		"webpack-cli": "^4.9.1",
+		"webpack-encoding-plugin": "^0.3.1"
+	}
+}
