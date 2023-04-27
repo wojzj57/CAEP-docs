@@ -41,3 +41,27 @@ export declare class CSpace extends React.Component<any, any> {
     constructor(props: any);
     render(): React.ReactNode;
 }
+export declare class CChevronUp extends React.Component<any, any> {
+    height: string | DimensionValue;
+    line: boolean;
+    tpye: CEItemType;
+    props: {
+        height?: string | DimensionValue;
+        line?: boolean;
+        [key: string]: any;
+    };
+    constructor(props: any);
+    render(): React.ReactNode;
+}
+export declare class CChevronDown extends React.Component<any, any> {
+    height: string | DimensionValue;
+    line: boolean;
+    tpye: CEItemType;
+    props: {
+        height?: string | DimensionValue;
+        line?: boolean;
+        [key: string]: any;
+    };
+    constructor(props: any);
+    render(): React.ReactNode;
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import { DimensionValue } from "@adobe/react-spectrum";
-import { FOption } from "../Menu/Data/IComponent";
+import { FOption } from "../Menu/Data/components";
 export declare class CCNumber extends React.Component<any, any> {
     id: string;
     content: any;

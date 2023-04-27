@@ -14,7 +14,7 @@ import {
 import ICON_ChevronDoubleRight from '@spectrum-icons/workflow/ChevronDoubleRight';
 import ICON_ChevronLeft from '@spectrum-icons/workflow/ChevronLeft';
 import ICON_ChevronRight from '@spectrum-icons/workflow/ChevronRight';
-import { FOption } from "../Menu/Data/IComponent";
+import { FOption } from "../Menu/Data/components";
 import { CProvider } from "./Provider";
 
 

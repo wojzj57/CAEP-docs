@@ -1,12 +1,10 @@
-import { CMenu } from "../menu";
-import { IPage } from "./IPage";
+import { CMenu } from "../MenuGUI";
+import { page } from "./page";
 
 
-class IMenu {
-    public mainPage: IPage;
-    public current: IPage;
-
-    public renderer: CMenu;
+export class menu {
+    public mainPage: page;
+    public current: page;
     constructor() {
 
     }
@@ -21,22 +19,18 @@ class IMenu {
     }
     //#endregion
 
-    private findPage(name: string): IPage {
+    private findPage(name: string): page {
         return this.fetchPage(this.mainPage, name);
     }
-    private fetchPage(page: IPage, name: string): IPage {
+    private fetchPage(page: page, name: string): page {
         if (page.name == name) return page;
-        Object.values(page.children).map((childPage: IPage) => {
+        Object.values(page.children).map((childPage: page) => {
             let temp = this.fetchPage(childPage, name);
             if (temp != undefined) temp;
         })
     }
 
     public setMainPage(): void {
-
-    }
-
-    public renderMainPage(): void {
 
     }
 }

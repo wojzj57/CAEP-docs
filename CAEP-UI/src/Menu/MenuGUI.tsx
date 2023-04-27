@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
 import { View, Heading, Flex, Text } from "@adobe/react-spectrum";
 import {
@@ -9,26 +10,39 @@ import {
     Breadcrumbs
 } from "@adobe/react-spectrum";
 
-import { CItem, CSpace } from "../Ulits/Item";
+import { CChevronDown, CChevronUp, CItem, CSpace } from "../Ulits/Item";
 import { CPanel } from "../Ulits/Block";
 import { CCButton, CCCheckbox, CCChevron, CCNumber, CCSelect, CCSlider, CCToggle } from "../Ulits/Component";
+import { page } from "./Data/page";
 
-
-import { IPage } from "./Data/IPage";
-
-export namespace CMenu {
-    export interface CPageTree {
-        current: CPage,
-        children: { [name: string]: CPageTree },
-        parent?: CPageTree
-    }
-}
+import { EventManager } from "../Common/event";
 
 export class CMenu extends React.Component<any, any> {
-    private pageTree: CMenu.CPageTree;
-    props: { title: string, mainPage: IPage }
+    public currentPage: page = undefined;
+
+    props: { title: string, mainPage: page }
     constructor(props: any) {
         super(props);
+        this.initEvents();
+    }
+
+    initEvents() {
+        this.bindArrawCode()
+    }
+
+    bindArrawCode() {
+        document.addEventListener('keydown', (event) => {
+            switch (event.key) {
+                case 'ArrowLeft':
+                    EventManager.emit('ArrowLeft'); break;
+                case 'ArrowUp':
+                    EventManager.emit('ArrowUp'); break;
+                case 'ArrowRight':
+                    EventManager.emit('ArrowRight'); break;
+                case 'ArrowDown':
+                    EventManager.emit('ArrowDown'); break;
+            }
+        })
     }
 
     // currentPage() {
@@ -39,7 +53,6 @@ export class CMenu extends React.Component<any, any> {
     // 事件处理
 
     // Render
-
     render(): React.ReactNode {
         return (
             <Flex direction={'column'} gap={'size-100'}>
@@ -49,11 +62,11 @@ export class CMenu extends React.Component<any, any> {
                         <CPage />
                     </Flex>
                 </CPanel>
-                <CPanel>
+                {/* <CPanel>
                     <Flex marginX={'size-100'} direction={'column'}>
-                        <Text>{'这是一个非常非常非常长的说明常非常长的说明常非常长的说明常非常长的说明常非常长的说明'}</Text>
+                        <Text>{'这是一个非常非常非常长的说明常非常长的说明常非常长的说明常非常长的这是一个非常非常非常长的说明常非常长的说明常非常长的说明常说明常非常长的说明'}</Text>
                     </Flex>
-                </CPanel>
+                </CPanel> */}
             </Flex>
         )
     }
@@ -67,7 +80,10 @@ export class CPage extends React.Component<any, any> {
         <CItem name="test3" header="test3"><CCToggle id={"test"} content={{ test: true }}></CCToggle></CItem>,
         <CItem name="test3" header="test3"><CCCheckbox id={"test"} content={{ test: true }}></CCCheckbox></CItem>,
         <CItem name="test4" header="test4"><CCSlider id={"test"} content={{ test: true }}></CCSlider></CItem>,
-        <CItem name="test4" header="test4"><CCSelect select={1} options={[{name:'1', desc:'one'}, {name:'2', desc:'two'}, {name:'3', desc:'three'}]} ></CCSelect></CItem>,
+        <CItem name="test4" header="test4"><CCSlider id={"test"} content={{ test: true }}></CCSlider></CItem>,
+        <CItem name="test4" header="test4"><CCSlider id={"test"} content={{ test: true }}></CCSlider></CItem>,
+        <CItem name="test4" header="test4"><CCSlider id={"test"} content={{ test: true }}></CCSlider></CItem>,
+        <CItem name="test4" header="test4"><CCSelect select={1} options={[{ name: '1', desc: 'one' }, { name: '2', desc: 'two' }, { name: '3', desc: 'three' }]} ></CCSelect></CItem>,
         <CItem name="test5" header="test5"><CCChevron></CCChevron></CItem>,
     ];
 
@@ -84,9 +100,6 @@ export class CPage extends React.Component<any, any> {
     props: any;
     constructor(props: any) {
         super(props);
-
-        // this.refs []
-        // this.items[0].setState()
         this.description = '111111111111111';
     }
 
@@ -97,12 +110,6 @@ export class CPage extends React.Component<any, any> {
     prevItem() {
 
     }
-    
-    // componentDidMount(): void {
-    //     if(!this.currentItem){
-    //         currentItem
-    //     }
-    // }
 
     render(): React.ReactNode {
         return (
@@ -112,12 +119,20 @@ export class CPage extends React.Component<any, any> {
                         <Text UNSAFE_className="forbidden-select">{this.description}</Text>
                     </Flex>
                 </Flex>
+
                 <Flex direction={'column'}>
-                    {this.items.map((item, index) => {
-                        let _ref = React.createRef();
-                        this.itemRefs.push(_ref);
-                        return React.cloneElement(item, { key: index, ref: _ref })
-                    })}
+                    <CChevronUp></CChevronUp>
+                    <Scrollbars
+                        autoHeight
+                        autoHeightMax={'300px'}
+                    >
+                        {this.items.map((item, index) => {
+                            let _ref = React.createRef();
+                            this.itemRefs.push(_ref);
+                            return React.cloneElement(item, { key: index, ref: _ref })
+                        })}
+                    </Scrollbars>
+                    <CChevronDown></CChevronDown>
                 </Flex>
             </Flex>
         )
@@ -138,36 +153,3 @@ export class CMenuHeader extends React.Component<any, any> {
         )
     }
 }
-
-// export class CMenuBreadcrumbs extends React.Component<any, any> {
-//     constructor(props: any) {
-//         super(props);
-//     }
-
-//     render(): React.ReactNode {
-//         return (
-//             <View overflow={'hidden'} width={'100%'}>
-//                 <Breadcrumbs showRoot>
-//                     <Item key={'test'}>
-//                         test
-//                     </Item>
-//                     <Item key={'test2'}>
-//                         test2
-//                     </Item>
-//                     <Item key={'test3'}>
-//                         test3
-//                     </Item>
-//                     <Item key={'test4'}>
-//                         test4
-//                     </Item>
-//                     <Item key={'test5'}>
-//                         test5
-//                     </Item>
-//                     <Item key={'test6'}>
-//                         test6
-//                     </Item>
-//                 </Breadcrumbs>
-//             </View>
-//         )
-//     }
-// }

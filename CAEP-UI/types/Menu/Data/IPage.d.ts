@@ -1,23 +1,23 @@
 import { IItemBase } from "./IItem";
-export declare namespace IPage {
-    interface IPageTree {
-        parent?: IPage;
+export declare namespace page {
+    interface pageTree {
+        parent?: page;
         children: {
-            [name: string]: IPage;
+            [name: string]: page;
         };
     }
 }
-export declare class IPage implements IPage.IPageTree {
+export declare class page implements page.pageTree {
     name: string;
     description: string;
-    parent?: IPage;
+    parent?: page;
     children: {
-        [name: string]: IPage;
+        [name: string]: page;
     };
     items: IItemBase[];
     exitems: IItemBase[];
     current: number;
     constructor();
     addItem(item: IItemBase): void;
-    addSubPage(page: IPage): void;
+    addSubPage(page: page): void;
 }

@@ -1,13 +1,15 @@
 import { DimensionValue } from "@adobe/react-spectrum";
 import { CEItemType } from "../../Ulits/Item";
-import { ICNumber, ICToggle, ICCheckbox, ICSlider, ICButton, ICChevron, ICSelect } from "./IComponent";
+import { ICNumber, ICToggle, ICCheckbox, ICSlider, ICButton, ICChevron, ICSelect } from "./components";
 
-export class IItemBase {
+export type itemType = item | space;
+
+export class itemBase {
     public type: CEItemType;
     constructor() { }
 }
 
-export class IItem extends IItemBase {
+export class item extends itemBase {
     public name: string = '';
     public header: string = '';
     public hint: string = '';
@@ -38,7 +40,7 @@ export class IItem extends IItemBase {
     }
 }
 
-export class ISpace extends IItemBase {
+export class space extends itemBase {
     public type: CEItemType = CEItemType.Filter;
     public height: string | DimensionValue;
     public line: boolean = false;
