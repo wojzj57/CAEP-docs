@@ -18,11 +18,14 @@ import { page } from "./Data/page";
 import { EventManager } from "../Common/event";
 
 export class CMenu extends React.Component<any, any> {
+    public mainPage: page = undefined;
     public currentPage: page = undefined;
 
-    props: { title: string, mainPage: page }
+    props: { title: string, mainPage: page, [name: string]: any }
     constructor(props: any) {
         super(props);
+        this.mainPage = props.mainPage;
+
         this.initEvents();
     }
 

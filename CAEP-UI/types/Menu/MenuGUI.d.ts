@@ -1,10 +1,12 @@
 import React from "react";
 import { page } from "./Data/page";
 export declare class CMenu extends React.Component<any, any> {
+    mainPage: page;
     currentPage: page;
     props: {
         title: string;
         mainPage: page;
+        [name: string]: any;
     };
     constructor(props: any);
     initEvents(): void;

@@ -1,17 +1,30 @@
+import React, { ReactNode } from "react";
+import { render } from "react-dom";
+
+import { CRenderer } from "../../Common/renderer";
+import { CView } from "../../Ulits/View";
 import { CMenu } from "../MenuGUI";
 import { page } from "./page";
 
 
 export class menu {
+    public renderer: CRenderer;
+
     public mainPage: page;
     public current: page;
     constructor() {
-
+        this.renderer = new CRenderer();
     }
 
     //#region Render
     public render(name: string = undefined): void {
+        render(
+            <CView>
+                <CMenu title="TestMenu" mainPage={this.mainPage}>
 
+                </CMenu>
+            </CView>
+            , document.getElementById("main-content"));
     }
 
     public refresh(): void {
