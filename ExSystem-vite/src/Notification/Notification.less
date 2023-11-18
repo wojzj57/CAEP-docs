@@ -1,0 +1,31 @@
+.ex-notification {
+    inset: 0 0 0 0 !important;
+    margin: 1.5% 1% 0 auto !important;
+    transform: none !important;
+
+    user-select: none;
+    -webkit-user-select: none;
+
+    .ex-notification-notice-wrapper {
+        width: auto;
+        max-width: 10%;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: rgba(31, 94, 255, 0.9);
+
+        .ex-notification-notice {
+            width: auto;
+            padding: 8px 12px;
+
+            .ex-notification-notice-message {
+                margin-bottom: 0%;
+                font-size: calc(1.2vh) !important;
+                line-height: calc(2vh) !important;
+            }
+
+            .ex-notification-notice-close {
+                display: none;
+            }
+        }
+    }
+}
