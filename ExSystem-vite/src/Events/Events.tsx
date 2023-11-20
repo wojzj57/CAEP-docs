@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Flex, notification } from "antd";
+import { Button, Flex, notification, Tooltip } from "antd";
 
 import "./Events.less"
 
@@ -24,23 +24,6 @@ export const Events = () => {
                     duration: 0,
                 })
             })
-            // .delay(1500)
-            // .then(() => {
-            //     api.open({
-            //         message: <EventCard />,
-            //         placement: "top",
-            //         duration: 0,
-            //     })
-            // })
-            // .delay(1500)
-            // .then(() => {
-            //     api.open({
-            //         message: <EventCard />,
-            //         placement: "top",
-            //         duration: 0,
-            //     })
-            // })
-           
     }, [])
 
 

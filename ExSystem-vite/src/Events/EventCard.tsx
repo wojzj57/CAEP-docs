@@ -17,25 +17,28 @@ export const EventCard = () => {
 const EventNav = () => {
     return (
         <Flex gap={"small"} className={"flex-grow"}>
-            <Button type="text" className="pos-rel ex-size overflow-hide" style={{
-                paddingLeft: "var(--size-75)",
-                paddingRight: "var(--size-100)"
-            }}>
-                <div className="pos-abs pos-abut point-through" style={{ backgroundColor: "#ffffffbb" }} />
-                <Flex>
-                    <svg className="flex my-auto ex-color" style={{ fill: "var(--gray-50", height: 16, width: 16, marginRight: "2px" }} viewBox="0 0 18 18" >
-                        <rect id="Canvas" fill="#ff13dc" opacity="0" width="18" height="18" />
-                        <path className="fill" d="M9,.9625a6,6,0,0,0-6,6c0,3.3135,6,10.875,6,10.875s6-7.5615,6-10.875A6,6,0,0,0,9,.9625ZM9,9.325A2.325,2.325,0,1,1,11.325,7,2.325,2.325,0,0,1,9,9.325Z" />
-                    </svg>
-                    <Typography.Text
-                        strong
-                        className="my-auto ex-color"
-                        style={{ color: "var(--gray-50)" }}
-                    >
-                        207
-                    </Typography.Text>
-                </Flex>
-            </Button>
+            <Tooltip title={"132556"} placement={"left"} >
+                <Button type="text" className="pos-rel ex-size overflow-hide" style={{
+                    paddingLeft: "var(--size-75)",
+                    paddingRight: "var(--size-100)"
+                }}>
+                    <div className="pos-abs pos-abut point-through" style={{ backgroundColor: "#ffffffbb" }} />
+                    <Flex>
+                        <svg className="flex my-auto ex-color" style={{ fill: "var(--gray-50", height: 16, width: 16, marginRight: "2px" }} viewBox="0 0 18 18" >
+                            <rect id="Canvas" fill="#ff13dc" opacity="0" width="18" height="18" />
+                            <path className="fill" d="M9,.9625a6,6,0,0,0-6,6c0,3.3135,6,10.875,6,10.875s6-7.5615,6-10.875A6,6,0,0,0,9,.9625ZM9,9.325A2.325,2.325,0,1,1,11.325,7,2.325,2.325,0,0,1,9,9.325Z" />
+                        </svg>
+                        <Typography.Text
+                            strong
+                            className="my-auto ex-color"
+                            style={{ color: "var(--gray-50)" }}
+                        >
+                            207
+                        </Typography.Text>
+                    </Flex>
+                </Button>
+            </Tooltip>
+
             <Typography.Text
                 strong
                 className="my-auto"
