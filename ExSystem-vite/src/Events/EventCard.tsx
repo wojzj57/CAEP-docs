@@ -1,11 +1,12 @@
-import { Button, Flex, Tooltip, Typography } from "antd";
+import { Button, ConfigProvider, Dropdown, Flex, Tooltip, Typography, theme } from "antd";
+import { EventVehicle } from "./EventUilts";
 
 export const EventCard = () => {
     return (
         <Flex className="pos-rel flex-grow">
             <div className="pos-abs event-card-background">
             </div>
-            <Flex className="flex-grow" vertical gap={"small"}>
+            <Flex className="flex-grow" vertical gap={"4px"}>
                 <EventNav />
                 <EventMessage />
                 <EventInfo />
@@ -17,7 +18,7 @@ export const EventCard = () => {
 const EventNav = () => {
     return (
         <Flex gap={"small"} className={"flex-grow"}>
-            <Tooltip title={"132556"} placement={"left"} >
+            <Tooltip title={`导航到${207}`} placement={"left"} >
                 <Button type="text" className="pos-rel ex-size overflow-hide" style={{
                     paddingLeft: "var(--size-75)",
                     paddingRight: "var(--size-100)"
@@ -45,7 +46,12 @@ const EventNav = () => {
             >
                 211S 无声警报
             </Typography.Text>
-            <Flex className="ml-auto">
+            <Flex className="ml-auto my-auto">
+                <EventVehicle />
+                <EventVehicle />
+                <EventVehicle />
+            </Flex>
+            <Flex>
                 <Typography.Text
                     className="my-auto"
                 >
@@ -59,8 +65,8 @@ const EventNav = () => {
 const EventMessage = () => {
     return (
         <Flex>
-            <Typography.Paragraph ellipsis={{ rows: 3 }} style={{ marginBottom: "0px" }}>
-                <Typography.Text className="ex-text ex-line event-message">
+            <Typography.Paragraph className="ex-line" ellipsis={{ rows: 3 }} style={{ marginBottom: "0px" }}>
+                <Typography.Text className="ex-text event-message">
                     发现、发生案件的时间、地点；现场的原始状态；有无采取措施；犯罪分子或可疑人员的人数、特点、作案工具、相关的车辆情况（颜色、车型、牌号等）、携带物品和逃跑的方向等等
                     发现、发生案件的时间、地点；现场的原始状态；有无采取措施；犯罪分子或可疑人员的人数、特点、作案工具、相关的车辆情况（颜色、车型、牌号等）、携带物品和逃跑的方向等等
                     发现、发生案件的时间、地点；现场的原始状态；有无采取措施；犯罪分子或可疑人员的人数、特点、作案工具、相关的车辆情况（颜色、车型、牌号等）、携带物品和逃跑的方向等等
@@ -72,15 +78,38 @@ const EventMessage = () => {
 
 const EventInfo = () => {
     return (
-        <Flex>
+        <Flex className="flex-grow">
             <Flex>
                 123
             </Flex>
             <Flex>
                 123
             </Flex>
-            <Flex>
-                123
+            <Flex className="ml-auto">
+                <ConfigProvider theme={{
+                    algorithm: theme.defaultAlgorithm,
+                }}>
+                    <Dropdown.Button type={"primary"} menu={{
+                        items:
+                            [
+                                {
+                                    key: '1',
+                                    label: '1st item',
+                                },
+                                {
+                                    key: '2',
+                                    label: '2nd item',
+                                },
+                                {
+                                    key: '3',
+                                    label: '3rd item',
+                                },
+                            ],
+                    }}>
+                        响应
+                    </Dropdown.Button>
+                </ConfigProvider>
+
             </Flex>
         </Flex>
     )
