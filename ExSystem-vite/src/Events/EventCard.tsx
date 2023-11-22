@@ -1,5 +1,9 @@
-import { Button, ConfigProvider, Dropdown, Flex, Tooltip, Typography, theme } from "antd";
+import React, { ReactElement, ReactNode, useEffect, useState } from "react";
+import { Button, ConfigProvider, Dropdown, Flex, Tooltip, Typography, theme, Select, Space } from "antd";
 import { EventVehicle } from "./EventUilts";
+import { motion } from "framer-motion";
+
+import { DownOutlined } from '@ant-design/icons';
 
 export const EventCard = () => {
     return (
@@ -77,24 +81,34 @@ const EventMessage = () => {
 }
 
 const EventInfo = () => {
+    const ref = React.createRef()
+    const [openFlag, setOpenFlag] = useState<Boolean>(false);
+
     return (
-        <Flex className="flex-grow">
+        <Flex className="flex-grow pos-rel" style={{ height: "32px" }}>
             <Flex>
                 123
             </Flex>
-            <Flex>
-                123
-            </Flex>
-            <Flex className="ml-auto">
-                <ConfigProvider theme={{
-                    algorithm: theme.defaultAlgorithm,
+            <motion.div
+                className="flex pos-abs-abut"
+                style={{
+                    zIndex: 9900,
+                    opacity: openFlag ? 1 : 0,
+                }}
+                whileHover={{
+                    opacity: 1,
                 }}>
-                    <Dropdown.Button type={"primary"} menu={{
-                        items:
-                            [
+                <Flex className="ml-auto pos-rel" gap={"small"}>
+                    <Dropdown
+                        trigger={["click"]}
+                        menu={{
+                            items: [
                                 {
                                     key: '1',
                                     label: '1st item',
+                                },
+                                {
+                                    type: "divider",
                                 },
                                 {
                                     key: '2',
@@ -105,12 +119,57 @@ const EventInfo = () => {
                                     label: '3rd item',
                                 },
                             ],
-                    }}>
+                            onClick: (e) => { console.log('e', e, 123) },
+                            onOpenChange: (e) => { console.log('e', e, 123) },
+                        }}>
+                        <Button className="ex-color" style={{ backgroundColor: "var(--green-600)" }} type={"text"}>
+                            <Space>
+                                Button
+                                <DownOutlined />
+                            </Space>
+                        </Button>
+                    </Dropdown>
+                    <Dropdown.Button
+                        type={"primary"}
+                        onClick={(e) => { console.log(e) }}
+                        trigger={["click"]}
+                        buttonsRender={(buttons: any[]) => {
+                            return [
+                                buttons[0],
+                                <Flex id="test">
+                                    {React.cloneElement(buttons[1], { ref: ref })}
+                                </Flex>
+                            ]
+                        }}
+                        menu={{
+                            mode: "vertical",
+                            overflowedIndicator:<></>,
+                            items:
+                                [
+                                    {
+                                        key: '1',
+                                        label: '1st item',
+                                    },
+                                    {
+                                        type: "divider",
+                                    },
+                                    {
+                                        key: '2',
+                                        label: '2nd item',
+                                    },
+                                    {
+                                        key: '3',
+                                        label: '3rd item',
+                                    },
+                                ],
+                            onClick: (e) => { console.log('e', e, 123) },
+                            onSelect: (e) => { console.log('e', e, 123) },
+                            onOpenChange: (e) => { console.log('e', e, 123) },
+                        }}>
                         响应
                     </Dropdown.Button>
-                </ConfigProvider>
-
-            </Flex>
-        </Flex>
+                </Flex>
+            </motion.div >
+        </Flex >
     )
 }
