@@ -85,9 +85,58 @@ const EventInfo = () => {
     const [openFlag, setOpenFlag] = useState<Boolean>(false);
 
     return (
-        <Flex className="flex-grow pos-rel" style={{ height: "32px" }}>
-            <Flex>
-                123
+        <Flex className="flex-grow pos-rel" gap={"small"} style={{ height: "32px", maxWidth: "100%" }}>
+            <Flex className="flex-grow pos-rel">
+                <Typography.Text className="flex" style={{ maxWidth: "100%" }} ellipsis={{ suffix: "..." }}>
+                    有时候想想，我们在外面或许也有这些那些的压力，但是曾经拿着白纸的他们失去了自由，还要整天面对无穷尽的折磨
+                </Typography.Text>
+            </Flex>
+            <Flex className="ml-auto my-auto" gap={"small"}>
+                <div
+                    className="flex"
+                    style={{
+                        padding: "0px 8px",
+                        borderRadius: "4px",
+                        borderStyle: "solid",
+                        borderColor: "#FFFFFFBB",
+                        borderWidth: "2px",
+                    }}
+                >
+                    <Flex gap={"4px"}>
+                        <svg className="flex my-auto" width="14" height="14" viewBox="0 0 14 14" fill="white" xmlns="http://www.w3.org/2000/svg">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M9 0H5V5H0V9H5V14H9V9H14V5H9V0Z" />
+                        </svg>
+                        <Typography.Title level={4} className="flex my-auto" style={{ margin: "0px" }}>
+                            6
+                        </Typography.Title>
+                    </Flex>
+                </div>
+                <div
+                    className="flex"
+                    style={{
+                        padding: "0px 8px",
+                        borderRadius: "4px",
+                        borderStyle: "solid",
+                        borderColor: "#FFFFFFBB",
+                        borderWidth: "2px",
+                    }}
+                >
+                    <Flex gap={"4px"}>
+                        <svg className="flex my-auto" width="16" height="15" viewBox="0 0 16 15" fill="white" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z" />
+                        </svg>
+                        <Typography.Title level={4} className="flex my-auto" style={{ margin: "0px" }}>
+                            6
+                        </Typography.Title>
+                    </Flex>
+                </div>
+            </Flex>
+            <Flex className="my-auto">
+                <Flex style={{ padding: "6px 16px" }}>
+                    <Space>
+                        进行中
+                    </Space>
+                </Flex>
             </Flex>
             <motion.div
                 className="flex pos-abs-abut"
@@ -99,6 +148,45 @@ const EventInfo = () => {
                     opacity: 1,
                 }}>
                 <Flex className="ml-auto pos-rel" gap={"small"}>
+                    <Dropdown.Button
+                        type={"primary"}
+                        onClick={(e) => { console.log(e) }}
+                        trigger={["click"]}
+                        buttonsRender={(buttons: any[]) => {
+                            return [
+                                buttons[0],
+                                <Flex id="test">
+                                    {React.cloneElement(buttons[1], { ref: ref })}
+                                </Flex>
+                            ]
+                        }}
+                        menu={{
+                            mode: "vertical",
+                            overflowedIndicator: <></>,
+                            items:
+                                [
+                                    {
+                                        key: '1',
+                                        label: '1st item',
+                                    },
+                                    {
+                                        type: "divider",
+                                    },
+                                    {
+                                        key: '2',
+                                        label: '2nd item',
+                                    },
+                                    {
+                                        key: '3',
+                                        label: '3rd item',
+                                    },
+                                ],
+                            onClick: (e) => { console.log('e', e, 123) },
+                            onSelect: (e) => { console.log('e', e, 123) },
+                            onOpenChange: (e) => { console.log('e', e, 123) },
+                        }}>
+                        响应
+                    </Dropdown.Button>
                     <Dropdown
                         trigger={["click"]}
                         menu={{
@@ -124,50 +212,10 @@ const EventInfo = () => {
                         }}>
                         <Button className="ex-color" style={{ backgroundColor: "var(--green-600)" }} type={"text"}>
                             <Space>
-                                Button
-                                <DownOutlined />
+                                进行中
                             </Space>
                         </Button>
                     </Dropdown>
-                    <Dropdown.Button
-                        type={"primary"}
-                        onClick={(e) => { console.log(e) }}
-                        trigger={["click"]}
-                        buttonsRender={(buttons: any[]) => {
-                            return [
-                                buttons[0],
-                                <Flex id="test">
-                                    {React.cloneElement(buttons[1], { ref: ref })}
-                                </Flex>
-                            ]
-                        }}
-                        menu={{
-                            mode: "vertical",
-                            overflowedIndicator:<></>,
-                            items:
-                                [
-                                    {
-                                        key: '1',
-                                        label: '1st item',
-                                    },
-                                    {
-                                        type: "divider",
-                                    },
-                                    {
-                                        key: '2',
-                                        label: '2nd item',
-                                    },
-                                    {
-                                        key: '3',
-                                        label: '3rd item',
-                                    },
-                                ],
-                            onClick: (e) => { console.log('e', e, 123) },
-                            onSelect: (e) => { console.log('e', e, 123) },
-                            onOpenChange: (e) => { console.log('e', e, 123) },
-                        }}>
-                        响应
-                    </Dropdown.Button>
                 </Flex>
             </motion.div >
         </Flex >
