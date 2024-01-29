@@ -82,35 +82,19 @@ const EventMessage = () => {
 
 const EventInfo = () => {
     const ref = React.createRef()
-    const [openFlag, setOpenFlag] = useState<Boolean>(false);
 
     return (
         <Flex className="flex-grow pos-rel" gap={"small"} style={{ height: "32px", maxWidth: "100%" }}>
             <Flex className="flex-grow pos-rel">
-                <Typography.Text className="flex" style={{ maxWidth: "100%" }} ellipsis={{ suffix: "..." }}>
-                    有时候想想，我们在外面或许也有这些那些的压力，但是曾经拿着白纸的他们失去了自由，还要整天面对无穷尽的折磨
-                </Typography.Text>
+                <div className="pos-abs-abut flex">
+                    <Typography.Paragraph type="secondary" style={{ maxWidth: '100%', marginTop: "auto", marginBottom: "auto" }}
+                        ellipsis={{ rows: 1 }}
+                    >
+                        发现、发生案件的时间、发生案件的时间、件的时间、件的时间、
+                    </Typography.Paragraph >
+                </div>
             </Flex>
             <Flex className="ml-auto my-auto" gap={"small"}>
-                <div
-                    className="flex"
-                    style={{
-                        padding: "0px 8px",
-                        borderRadius: "4px",
-                        borderStyle: "solid",
-                        borderColor: "#FFFFFFBB",
-                        borderWidth: "2px",
-                    }}
-                >
-                    <Flex gap={"4px"}>
-                        <svg className="flex my-auto" width="14" height="14" viewBox="0 0 14 14" fill="white" xmlns="http://www.w3.org/2000/svg">
-                            <path fillRule="evenodd" clipRule="evenodd" d="M9 0H5V5H0V9H5V14H9V9H14V5H9V0Z" />
-                        </svg>
-                        <Typography.Title level={4} className="flex my-auto" style={{ margin: "0px" }}>
-                            6
-                        </Typography.Title>
-                    </Flex>
-                </div>
                 <div
                     className="flex"
                     style={{
@@ -130,6 +114,25 @@ const EventInfo = () => {
                         </Typography.Title>
                     </Flex>
                 </div>
+                <div
+                    className="flex"
+                    style={{
+                        padding: "0px 8px",
+                        borderRadius: "4px",
+                        borderStyle: "solid",
+                        borderColor: "#FFFFFFBB",
+                        borderWidth: "2px",
+                    }}
+                >
+                    <Flex gap={"4px"}>
+                        <svg className="flex my-auto" width="14" height="14" viewBox="0 0 14 14" fill="white" xmlns="http://www.w3.org/2000/svg">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M9 0H5V5H0V9H5V14H9V9H14V5H9V0Z" />
+                        </svg>
+                        <Typography.Title level={4} className="flex my-auto" style={{ margin: "0px" }}>
+                            6
+                        </Typography.Title>
+                    </Flex>
+                </div>
             </Flex>
             <Flex className="my-auto">
                 <Flex style={{ padding: "6px 16px" }}>
@@ -142,7 +145,7 @@ const EventInfo = () => {
                 className="flex pos-abs-abut"
                 style={{
                     zIndex: 9900,
-                    opacity: openFlag ? 1 : 0,
+                    opacity: 0,
                 }}
                 whileHover={{
                     opacity: 1,
