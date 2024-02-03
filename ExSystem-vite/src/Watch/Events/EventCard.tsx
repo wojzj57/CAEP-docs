@@ -1,15 +1,26 @@
-import React, { ReactElement, ReactNode, useEffect, useState } from "react";
+import React, { forwardRef, useImperativeHandle, ReactElement, ReactNode, useEffect, useState } from "react";
 import { Button, ConfigProvider, Dropdown, Flex, Tooltip, Typography, theme, Select, Space } from "antd";
 import { EventVehicle } from "./EventUilts";
 import { motion } from "framer-motion";
-import { ExEvent } from "./Event";
+import { EventStatus, EventStatusMap, ExEvent } from "./EventType";
 
-export const EventCard = ({ e }: { e: ExEvent }) => {
-    const [event, setEvent] = useState<ExEvent>(e);
+export type EventRef = {
+    update: (event: ExEvent) => void;
+}
+export const EventCard = forwardRef<EventRef, { initEvent: ExEvent }>(({ initEvent }, ref) => {
+    const [event, setEvent] = useState<ExEvent>(initEvent);
+
+    const update = (event: ExEvent) => {
+        setEvent(JSON.parse(JSON.stringify(event)));
+    }
+
+    useImperativeHandle(ref, () => ({
+        update,
+    }));
 
     return (
         <Flex className="pos-rel flex-grow">
-            <div className="pos-abs event-card-background">
+            <div className={`pos-abs event-card-background event-${event.class}`}>
             </div>
             <Flex className="flex-grow" vertical gap={"4px"}>
                 <EventNav event={event} />
@@ -18,7 +29,7 @@ export const EventCard = ({ e }: { e: ExEvent }) => {
             </Flex>
         </Flex>
     )
-}
+})
 
 const EventNav = ({ event }: { event: ExEvent }) => {
     return (
@@ -80,7 +91,18 @@ const EventMessage = ({ event }: { event: ExEvent }) => {
 }
 
 const EventInfo = ({ event }: { event: ExEvent }) => {
-    const ref = React.createRef()
+    const [state, setState] = useState<boolean>(false);
+
+    const [responseState, setResponseState] = useState<boolean>(false);
+
+    const statusHandler = (key: EventStatus) => {
+        if (event.status != key) event.status = key;
+        setState(!state);
+    }
+
+    const responseHandler = () => {
+        setResponseState(!responseState);
+    }
 
     return (
         <Flex className="flex-grow pos-rel" gap={"small"} style={{ height: "32px", maxWidth: "100%" }}>
@@ -89,7 +111,7 @@ const EventInfo = ({ event }: { event: ExEvent }) => {
                     <Typography.Paragraph type="secondary" style={{ maxWidth: '100%', marginTop: "auto", marginBottom: "auto" }}
                         ellipsis={{ rows: 1 }}
                     >
-                        发现、发生案件的时间、发生案件的时间、件的时间、件的时间、
+                        {event.notes[0]}
                     </Typography.Paragraph >
                 </div>
             </Flex>
@@ -136,7 +158,7 @@ const EventInfo = ({ event }: { event: ExEvent }) => {
             <Flex className="my-auto">
                 <Flex style={{ padding: "6px 16px" }}>
                     <Space>
-                        进行中
+                        {EventStatusMap[event.status]}
                     </Space>
                 </Flex>
             </Flex>
@@ -150,71 +172,109 @@ const EventInfo = ({ event }: { event: ExEvent }) => {
                     opacity: 1,
                 }}>
                 <Flex className="ml-auto pos-rel" gap={"small"}>
+                    <Button
+                        className="ex-color"
+                        style={{ backgroundColor: "var(--gray-200)" }}
+                        type={"text"}
+                    >
+                        <Space>
+                            {"编辑"}
+                        </Space>
+                    </Button>
                     <Dropdown.Button
                         type={"primary"}
-                        onClick={(e) => { console.log(e) }}
+                        danger={responseState}
+                        onClick={responseHandler}
                         trigger={["click"]}
-                        buttonsRender={(buttons: any[]) => {
-                            return [
-                                buttons[0],
-                                <Flex id="test">
-                                    {React.cloneElement(buttons[1], { ref: ref })}
-                                </Flex>
-                            ]
-                        }}
                         menu={{
                             mode: "vertical",
-                            overflowedIndicator: <></>,
                             items:
                                 [
                                     {
-                                        key: '1',
-                                        label: '1st item',
+                                        key: 'unit-backup',
+                                        label: '一个增援',
+                                    },
+                                    {
+                                        key: 'units-backup',
+                                        label: '多个增援',
                                     },
                                     {
                                         type: "divider",
                                     },
                                     {
-                                        key: '2',
-                                        label: '2nd item',
+                                        key: 'medic-backup',
+                                        label: '医疗增援',
                                     },
                                     {
-                                        key: '3',
-                                        label: '3rd item',
+                                        key: 'fd-backup',
+                                        label: '消防增援',
+                                    },
+                                    {
+                                        type: "divider",
+                                    },
+                                    {
+                                        key: 'tow',
+                                        label: '拖车',
+                                    },
+                                    {
+                                        type: "divider",
+                                    },
+                                    {
+                                        key: '999-backup',
+                                        label: '999',
+                                        danger: true,
                                     },
                                 ],
                             onClick: (e) => { console.log('e', e, 123) },
-                            onSelect: (e) => { console.log('e', e, 123) },
-                            onOpenChange: (e) => { console.log('e', e, 123) },
                         }}>
-                        响应
+                        {responseState ? "取消" : "响应"}
                     </Dropdown.Button>
                     <Dropdown
                         trigger={["click"]}
+
                         menu={{
                             items: [
                                 {
-                                    key: '1',
-                                    label: '1st item',
+                                    key: 'pending',
+                                    label: '等待',
+                                },
+                                {
+                                    key: 'routing',
+                                    label: '在途',
+                                },
+                                {
+                                    key: 'progressing',
+                                    label: '进行',
+                                },
+                                {
+                                    key: 'completed',
+                                    label: '完成',
                                 },
                                 {
                                     type: "divider",
                                 },
                                 {
-                                    key: '2',
-                                    label: '2nd item',
+                                    key: 'cancelled',
+                                    label: '取消',
                                 },
                                 {
-                                    key: '3',
-                                    label: '3rd item',
+                                    type: "divider",
+                                },
+                                {
+                                    key: 'emergency',
+                                    label: '紧急',
+                                    danger: true,
                                 },
                             ],
-                            onClick: (e) => { console.log('e', e, 123) },
-                            onOpenChange: (e) => { console.log('e', e, 123) },
+                            onClick: (e) => { statusHandler(e.key as EventStatus) },
                         }}>
-                        <Button className="ex-color" style={{ backgroundColor: "var(--green-600)" }} type={"text"}>
+                        <Button
+                            className="ex-color"
+                            style={{ backgroundColor: "var(--green-600)" }}
+                            type={"text"}
+                        >
                             <Space>
-                                进行中
+                                {EventStatusMap[event.status]}
                             </Space>
                         </Button>
                     </Dropdown>
@@ -223,3 +283,4 @@ const EventInfo = ({ event }: { event: ExEvent }) => {
         </Flex >
     )
 }
+

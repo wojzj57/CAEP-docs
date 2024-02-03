@@ -10,8 +10,8 @@ import { ExPad } from './Pad/Pad';
 createRoot(document.getElementById('root') as HTMLElement)
     .render(
         <DevBase>
-            <ExPad />
-            {/* <ExApp /> */}
+            {/* <ExPad /> */}
+            <ExApp />
         </DevBase>
     )
 

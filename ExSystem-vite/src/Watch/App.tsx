@@ -2,7 +2,7 @@ import { ConfigProvider, App, theme } from "antd"
 
 import "./App.less";
 
-import { Events } from "./Events/Events"
+import { Events, EventsRef } from "./Events/Events"
 import { Notification } from "./Notification/Notification";
 
 export const ExApp = () => {
@@ -12,7 +12,7 @@ export const ExApp = () => {
             algorithm: theme.darkAlgorithm,
         }}>
             <App className="ex-face">
-                <Events />
+                <Events ref={EventsRef} />
                 <Notification />
             </App>
         </ConfigProvider >
