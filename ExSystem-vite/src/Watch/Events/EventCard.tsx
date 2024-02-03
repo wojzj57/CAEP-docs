@@ -2,27 +2,28 @@ import React, { ReactElement, ReactNode, useEffect, useState } from "react";
 import { Button, ConfigProvider, Dropdown, Flex, Tooltip, Typography, theme, Select, Space } from "antd";
 import { EventVehicle } from "./EventUilts";
 import { motion } from "framer-motion";
+import { ExEvent } from "./Event";
 
-import { DownOutlined } from '@ant-design/icons';
+export const EventCard = ({ e }: { e: ExEvent }) => {
+    const [event, setEvent] = useState<ExEvent>(e);
 
-export const EventCard = () => {
     return (
         <Flex className="pos-rel flex-grow">
             <div className="pos-abs event-card-background">
             </div>
             <Flex className="flex-grow" vertical gap={"4px"}>
-                <EventNav />
-                <EventMessage />
-                <EventInfo />
+                <EventNav event={event} />
+                <EventMessage event={event} />
+                <EventInfo event={event} />
             </Flex>
         </Flex>
     )
 }
 
-const EventNav = () => {
+const EventNav = ({ event }: { event: ExEvent }) => {
     return (
         <Flex gap={"small"} className={"flex-grow"}>
-            <Tooltip title={`导航到${207}`} placement={"left"} >
+            <Tooltip title={`导航到${event.postal}`} placement={"left"} >
                 <Button type="text" className="pos-rel ex-size overflow-hide" style={{
                     paddingLeft: "var(--size-75)",
                     paddingRight: "var(--size-100)"
@@ -38,7 +39,7 @@ const EventNav = () => {
                             className="my-auto ex-color"
                             style={{ color: "var(--gray-50)" }}
                         >
-                            207
+                            {event.postal}
                         </Typography.Text>
                     </Flex>
                 </Button>
@@ -48,7 +49,7 @@ const EventNav = () => {
                 strong
                 className="my-auto"
             >
-                211S 无声警报
+                {event.type}
             </Typography.Text>
             <Flex className="ml-auto my-auto">
                 <EventVehicle />
@@ -59,28 +60,26 @@ const EventNav = () => {
                 <Typography.Text
                     className="my-auto"
                 >
-                    20:08
+                    {event.time.hour.toString().padStart(2, '0')}:{event.time.minute.toString().padStart(2, '0')}
                 </Typography.Text>
             </Flex>
         </Flex>
     )
 }
 
-const EventMessage = () => {
+const EventMessage = ({ event }: { event: ExEvent }) => {
     return (
         <Flex>
             <Typography.Paragraph className="ex-line" ellipsis={{ rows: 3 }} style={{ marginBottom: "0px" }}>
                 <Typography.Text className="ex-text event-message">
-                    发现、发生案件的时间、地点；现场的原始状态；有无采取措施；犯罪分子或可疑人员的人数、特点、作案工具、相关的车辆情况（颜色、车型、牌号等）、携带物品和逃跑的方向等等
-                    发现、发生案件的时间、地点；现场的原始状态；有无采取措施；犯罪分子或可疑人员的人数、特点、作案工具、相关的车辆情况（颜色、车型、牌号等）、携带物品和逃跑的方向等等
-                    发现、发生案件的时间、地点；现场的原始状态；有无采取措施；犯罪分子或可疑人员的人数、特点、作案工具、相关的车辆情况（颜色、车型、牌号等）、携带物品和逃跑的方向等等
+                    {event.desc}
                 </Typography.Text>
             </Typography.Paragraph>
         </Flex>
     )
 }
 
-const EventInfo = () => {
+const EventInfo = ({ event }: { event: ExEvent }) => {
     const ref = React.createRef()
 
     return (
