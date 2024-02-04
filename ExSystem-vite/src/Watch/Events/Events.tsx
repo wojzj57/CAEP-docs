@@ -1,9 +1,9 @@
 import "./Events.less"
 
 import { createRef, forwardRef, useImperativeHandle } from "react";
-import { Button, Flex, notification, Tooltip } from "antd";
+import { Flex, notification } from "antd";
 import { EventCard, EventRef } from "./EventCard";
-import { ExEvent } from "./EventType";
+import { ExEvent } from "@/Types/Event";
 import { eventManager } from "./EventManager";
 
 

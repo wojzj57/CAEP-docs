@@ -1,8 +1,8 @@
 import React, { forwardRef, useImperativeHandle, ReactElement, ReactNode, useEffect, useState } from "react";
 import { Button, ConfigProvider, Dropdown, Flex, Tooltip, Typography, theme, Select, Space } from "antd";
-import { EventVehicle } from "./EventUilts";
+import { EventPerson, EventVehicle } from "./utils/EventUilts";
 import { motion } from "framer-motion";
-import { EventStatus, EventStatusMap, ExEvent } from "./EventType";
+import { ExEvent } from "@/Types/Event";
 
 export type EventRef = {
     update: (event: ExEvent) => void;
@@ -62,17 +62,22 @@ const EventNav = ({ event }: { event: ExEvent }) => {
             >
                 {event.type}
             </Typography.Text>
-            <Flex className="ml-auto my-auto">
-                <EventVehicle />
-                <EventVehicle />
-                <EventVehicle />
-            </Flex>
-            <Flex>
-                <Typography.Text
-                    className="my-auto"
-                >
-                    {event.time.hour.toString().padStart(2, '0')}:{event.time.minute.toString().padStart(2, '0')}
-                </Typography.Text>
+            <Flex className="ml-auto" gap={"small"}>
+                <Flex className="my-auto">
+                    {event.involvedPersons.map((person, index) =>
+                        <EventPerson key={index} person={person} />
+                    )}
+                </Flex>
+                <Flex className="my-auto">
+                    {event.involvedVehicles.map((vehicle, index) =>
+                        <EventVehicle key={index} vehicle={vehicle} />
+                    )}
+                </Flex>
+                <Flex className="my-auto">
+                    <Typography.Text>
+                        {event.time.hour.toString().padStart(2, '0')}:{event.time.minute.toString().padStart(2, '0')}
+                    </Typography.Text>
+                </Flex>
             </Flex>
         </Flex>
     )
@@ -95,7 +100,7 @@ const EventInfo = ({ event }: { event: ExEvent }) => {
 
     const [responseState, setResponseState] = useState<boolean>(false);
 
-    const statusHandler = (key: EventStatus) => {
+    const statusHandler = (key: ExEvent.Status) => {
         if (event.status != key) event.status = key;
         setState(!state);
     }
@@ -158,7 +163,7 @@ const EventInfo = ({ event }: { event: ExEvent }) => {
             <Flex className="my-auto">
                 <Flex style={{ padding: "6px 16px" }}>
                     <Space>
-                        {EventStatusMap[event.status]}
+                        {ExEvent.StatusMap[event.status]}
                     </Space>
                 </Flex>
             </Flex>
@@ -266,7 +271,7 @@ const EventInfo = ({ event }: { event: ExEvent }) => {
                                     danger: true,
                                 },
                             ],
-                            onClick: (e) => { statusHandler(e.key as EventStatus) },
+                            onClick: (e) => { statusHandler(e.key as ExEvent.Status) },
                         }}>
                         <Button
                             className="ex-color"
@@ -274,7 +279,7 @@ const EventInfo = ({ event }: { event: ExEvent }) => {
                             type={"text"}
                         >
                             <Space>
-                                {EventStatusMap[event.status]}
+                                {ExEvent.StatusMap[event.status]}
                             </Space>
                         </Button>
                     </Dropdown>
