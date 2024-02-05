@@ -1,5 +1,5 @@
 import { Location, Time } from "./Common";
-import { CIV } from "./User";
+import { CIV, Officer } from "./User";
 import { Vehicle } from "./Vehicle";
 
 export namespace ExEvent {
@@ -13,17 +13,26 @@ export namespace ExEvent {
 
     export type Status =
         | "pending"
-        | "routing"
         | "progressing"
-        | "completed"
+        | "closed"
         | "cancelled"
         | "emergency";
 
-    export const StatusMap = {
+    export type Route = "911" | "radio" | "witness" | "site";
+
+    export const ClassStringMap = {
+         "police": "Police",
+         "fire": "Fire",
+         "medical": "Medical",
+         "traffic": "Traffic",
+         "other": "Other",
+        "emergency": "Emergency",
+    }
+
+    export const StatusStringMap = {
         pending: "等待",
-        routing: "在途",
         progressing: "进行",
-        completed: "完成",
+        closed: "完成",
         cancelled: "取消",
         emergency: "紧急",
     };
@@ -37,6 +46,8 @@ export type ExEvent = {
     status: ExEvent.Status;
     // 案件类型
     class: ExEvent.Class;
+    // 案件来源
+    route: ExEvent.Route;
     //#endregion
 
     //#region 案件发生信息
@@ -57,7 +68,10 @@ export type ExEvent = {
     //#endregion
 
     //#region 案件车辆和人员
-    involvedVehicles: Vehicle[];
-    involvedPersons: CIV[];
+    suspectVehicles: Vehicle[];
+    suspectPersons: CIV[];
     //#endregion
+
+    pdOfficers: Officer[];
+    fdOfficers: Officer[];
 };

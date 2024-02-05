@@ -1,17 +1,20 @@
-import React, { forwardRef, useImperativeHandle, ReactElement, ReactNode, useEffect, useState } from "react";
+import React, { forwardRef, useImperativeHandle, ReactElement, ReactNode, useEffect, useState, useContext } from "react";
 import { Button, ConfigProvider, Dropdown, Flex, Tooltip, Typography, theme, Select, Space } from "antd";
 import { EventPerson, EventVehicle } from "./utils/EventUilts";
 import { motion } from "framer-motion";
 import { ExEvent } from "@/Types/Event";
+import { eventsContext } from "./Events";
+import { ExEventBulk, eventManager } from "./EventManager";
 
 export type EventRef = {
-    update: (event: ExEvent) => void;
+    update: (event: ExEventBulk) => void;
 }
-export const EventCard = forwardRef<EventRef, { initEvent: ExEvent }>(({ initEvent }, ref) => {
-    const [event, setEvent] = useState<ExEvent>(initEvent);
+export const EventCard = forwardRef<EventRef, { initEvent: ExEventBulk }>(({ initEvent }, ref) => {
+    const [event, setEvent] = useState<ExEventBulk>(initEvent);
+    const [state, setState] = useState<boolean>(false);
 
-    const update = (event: ExEvent) => {
-        setEvent(JSON.parse(JSON.stringify(event)));
+    const update = (event: ExEventBulk) => {
+        setState(!state);
     }
 
     useImperativeHandle(ref, () => ({
@@ -31,7 +34,7 @@ export const EventCard = forwardRef<EventRef, { initEvent: ExEvent }>(({ initEve
     )
 })
 
-const EventNav = ({ event }: { event: ExEvent }) => {
+const EventNav = ({ event }: { event: ExEventBulk }) => {
     return (
         <Flex gap={"small"} className={"flex-grow"}>
             <Tooltip title={`导航到${event.postal}`} placement={"left"} >
@@ -41,7 +44,7 @@ const EventNav = ({ event }: { event: ExEvent }) => {
                 }}>
                     <div className="pos-abs pos-abut point-through" style={{ backgroundColor: "#ffffffbb" }} />
                     <Flex>
-                        <svg className="flex my-auto ex-color" style={{ fill: "var(--gray-50", height: 16, width: 16, marginRight: "2px" }} viewBox="0 0 18 18" >
+                        <svg className="flex my-auto ex-color" style={{ fill: "var(--gray-50)", height: 16, width: 16, marginRight: "2px" }} viewBox="0 0 18 18" >
                             <rect id="Canvas" fill="#ff13dc" opacity="0" width="18" height="18" />
                             <path className="fill" d="M9,.9625a6,6,0,0,0-6,6c0,3.3135,6,10.875,6,10.875s6-7.5615,6-10.875A6,6,0,0,0,9,.9625ZM9,9.325A2.325,2.325,0,1,1,11.325,7,2.325,2.325,0,0,1,9,9.325Z" />
                         </svg>
@@ -55,25 +58,26 @@ const EventNav = ({ event }: { event: ExEvent }) => {
                     </Flex>
                 </Button>
             </Tooltip>
-
             <Typography.Text
                 strong
                 className="my-auto"
             >
                 {event.type}
             </Typography.Text>
-            <Flex className="ml-auto" gap={"small"}>
-                <Flex className="my-auto">
-                    {event.involvedPersons.map((person, index) =>
-                        <EventPerson key={index} person={person} />
-                    )}
+            <Flex className="ml-auto flex-grow" gap={"small"}>
+                <Flex className="flex-grow" gap={"small"} style={{ overflow: "hidden" }}>
+                    <Flex className="ml-auto my-auto">
+                        {event.suspectPersons.map((person, index) =>
+                            <EventPerson key={index} person={person} />
+                        )}
+                    </Flex>
+                    <Flex className="my-auto">
+                        {event.suspectVehicles.map((vehicle, index) =>
+                            <EventVehicle key={index} vehicle={vehicle} />
+                        )}
+                    </Flex>
                 </Flex>
-                <Flex className="my-auto">
-                    {event.involvedVehicles.map((vehicle, index) =>
-                        <EventVehicle key={index} vehicle={vehicle} />
-                    )}
-                </Flex>
-                <Flex className="my-auto">
+                <Flex className="ml-auto my-auto" style={{ minWidth: "48px" }}>
                     <Typography.Text>
                         {event.time.hour.toString().padStart(2, '0')}:{event.time.minute.toString().padStart(2, '0')}
                     </Typography.Text>
@@ -83,7 +87,7 @@ const EventNav = ({ event }: { event: ExEvent }) => {
     )
 }
 
-const EventMessage = ({ event }: { event: ExEvent }) => {
+const EventMessage = ({ event }: { event: ExEventBulk }) => {
     return (
         <Flex>
             <Typography.Paragraph className="ex-line" ellipsis={{ rows: 3 }} style={{ marginBottom: "0px" }}>
@@ -95,18 +99,31 @@ const EventMessage = ({ event }: { event: ExEvent }) => {
     )
 }
 
-const EventInfo = ({ event }: { event: ExEvent }) => {
+const EventInfo = ({ event }: { event: ExEventBulk }) => {
     const [state, setState] = useState<boolean>(false);
+    const eventContext = useContext(eventsContext);
 
-    const [responseState, setResponseState] = useState<boolean>(false);
-
-    const statusHandler = (key: ExEvent.Status) => {
+    const eventHandler = (key: ExEvent.Status) => {
         if (event.status != key) event.status = key;
+        event.setDatas({ status: key });
+    }
+    const backupHandler = (key: string) => {
+        console.log(key)
         setState(!state);
     }
 
     const responseHandler = () => {
-        setResponseState(!responseState);
+        if (eventContext.responseID == event.id) {
+            eventManager.response();
+        }
+        else {
+            eventManager.response(event.id);
+        }
+        setState(!state);
+    }
+
+    const unitStatusHandler = (key: ExEvent.Status) => {
+        console.log(key)
     }
 
     return (
@@ -163,7 +180,7 @@ const EventInfo = ({ event }: { event: ExEvent }) => {
             <Flex className="my-auto">
                 <Flex style={{ padding: "6px 16px" }}>
                     <Space>
-                        {ExEvent.StatusMap[event.status]}
+                        {ExEvent.StatusStringMap[event.status]}
                     </Space>
                 </Flex>
             </Flex>
@@ -181,97 +198,107 @@ const EventInfo = ({ event }: { event: ExEvent }) => {
                         className="ex-color"
                         style={{ backgroundColor: "var(--gray-200)" }}
                         type={"text"}
+                        disabled={!eventContext.unit}
                     >
                         <Space>
                             {"编辑"}
                         </Space>
                     </Button>
+                    {/* 单位状态 */}
                     <Dropdown.Button
                         type={"primary"}
-                        danger={responseState}
+                        danger={eventContext.responseID == event.id}
+                        disabled={!eventContext.unit}
                         onClick={responseHandler}
                         trigger={["click"]}
                         menu={{
                             mode: "vertical",
+                            disabled: !eventContext.unit || eventContext.unit.responceID != event.id,
                             items:
                                 [
                                     {
-                                        key: 'unit-backup',
-                                        label: '一个增援',
+                                        key: 'onroute',
+                                        label: '在途',
                                     },
                                     {
-                                        key: 'units-backup',
-                                        label: '多个增援',
+                                        key: 'onscene',
+                                        label: '到场',
                                     },
                                     {
-                                        type: "divider",
-                                    },
-                                    {
-                                        key: 'medic-backup',
-                                        label: '医疗增援',
-                                    },
-                                    {
-                                        key: 'fd-backup',
-                                        label: '消防增援',
+                                        key: 'onbusy',
+                                        label: '进行',
                                     },
                                     {
                                         type: "divider",
                                     },
                                     {
-                                        key: 'tow',
-                                        label: '拖车',
-                                    },
-                                    {
-                                        type: "divider",
-                                    },
-                                    {
-                                        key: '999-backup',
-                                        label: '999',
+                                        key: 'emergency',
+                                        label: '紧急',
                                         danger: true,
                                     },
                                 ],
-                            onClick: (e) => { console.log('e', e, 123) },
+                            onClick: (e) => { unitStatusHandler(e.key as ExEvent.Status) },
                         }}>
-                        {responseState ? "取消" : "响应"}
+                        {eventContext.responseID == event.id ? "取消" : "响应"}
                     </Dropdown.Button>
+                    {/* 案件状态 */}
                     <Dropdown
                         trigger={["click"]}
-
+                        disabled={!eventContext.unit}
                         menu={{
                             items: [
                                 {
-                                    key: 'pending',
-                                    label: '等待',
+                                    type: "group",
+                                    key: 'event',
+                                    label: '案件状态',
+                                    children: [
+                                        {
+                                            key: 'event-pending',
+                                            label: '等待',
+                                        },
+                                        {
+                                            key: 'event-progressing',
+                                            label: '进行',
+                                        },
+                                        {
+                                            key: 'event-closed',
+                                            label: '完成',
+                                        },
+                                        {
+                                            key: 'event-emergency',
+                                            label: '紧急',
+                                            danger: true,
+                                        },
+                                    ]
                                 },
                                 {
-                                    key: 'routing',
-                                    label: '在途',
-                                },
-                                {
-                                    key: 'progressing',
-                                    label: '进行',
-                                },
-                                {
-                                    key: 'completed',
-                                    label: '完成',
-                                },
-                                {
-                                    type: "divider",
-                                },
-                                {
-                                    key: 'cancelled',
-                                    label: '取消',
-                                },
-                                {
-                                    type: "divider",
-                                },
-                                {
-                                    key: 'emergency',
-                                    label: '紧急',
-                                    danger: true,
+                                    type: "group",
+                                    key: 'backup',
+                                    label: '增援',
+                                    children: [
+                                        {
+                                            key: 'backup-unit',
+                                            label: '一个增援',
+                                        },
+                                        {
+                                            key: 'backup-units',
+                                            label: '多个增援',
+                                        },
+                                        {
+                                            key: 'backup-medic',
+                                            label: '医疗增援',
+                                        },
+                                        {
+                                            key: 'backup-fd',
+                                            label: '消防增援',
+                                        },
+                                    ]
                                 },
                             ],
-                            onClick: (e) => { statusHandler(e.key as ExEvent.Status) },
+                            onClick: (e) => {
+                                if (e.key.startsWith("event-")) eventHandler(e.key.slice(6) as ExEvent.Status)
+                                if (e.key.startsWith("backup-")) backupHandler(e.key.slice(7))
+                            },
                         }}>
                         <Button
                             className="ex-color"
@@ -279,7 +306,7 @@ const EventInfo = ({ event }: { event: ExEvent }) => {
                             type={"text"}
                         >
                             <Space>
-                                {ExEvent.StatusMap[event.status]}
+                                {ExEvent.StatusStringMap[event.status]}
                             </Space>
                         </Button>
                     </Dropdown>
