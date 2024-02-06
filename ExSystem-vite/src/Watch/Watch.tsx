@@ -1,12 +1,10 @@
 import { ConfigProvider, App, theme } from "antd"
-
-import "./App.less";
-
 import { Events, EventsRef } from "./Events/Events"
 import { Notification } from "./Notification/Notification";
 
-export const ExApp = () => {
+import "./Watch.less";
 
+export const ExWatch = () => {
     return (
         <ConfigProvider theme={{
             algorithm: theme.darkAlgorithm,

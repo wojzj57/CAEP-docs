@@ -63,6 +63,7 @@ export type ExEvent = {
     // 案件类型
     type: string;
     // 案件描述
+    title: string;
     desc: string;
     notes: string[];
     //#endregion

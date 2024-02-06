@@ -18,6 +18,7 @@ export class ExEventBulk implements ExEvent {
     location: Location;
     time: Time;
     type: string;
+    title: string;
     desc: string;
     notes: string[];
     suspectVehicles: Vehicle[];
@@ -36,6 +37,7 @@ export class ExEventBulk implements ExEvent {
         this.location = event.location;
         this.time = event.time;
         this.type = event.type;
+        this.title = event.title;
         this.desc = event.desc;
         this.notes = event.notes;
         this.suspectVehicles = event.suspectVehicles;
@@ -71,6 +73,7 @@ export class ExEventBulk implements ExEvent {
                 location: this.location,
                 time: this.time,
                 type: this.type,
+                title: this.title,
                 desc: this.desc,
                 notes: this.notes,
                 suspectVehicles: this.suspectVehicles,
