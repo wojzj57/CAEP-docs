@@ -20,6 +20,28 @@ export type Vehicle = {
     image?: string | string[];
     //#endregion
 };
+export type SuspectVehicle = {
+    id: ExID;
+    class: Vehicle.Class | "unknown";
+
+    plate: string | "unknown";
+    owner?: ExID;
+    status: Vehicle.Status | "unknown";
+
+    //#region 车辆细节
+    type: Vehicle.Type | "unknown";
+    manufacturer: string;
+    color: string;
+    year?: string;
+    model?: string;
+    //#endregion
+
+    //#region 车辆图片
+    image?: string | string[];
+    //#endregion
+};
+
+
 export namespace Vehicle {
     export type Class = "civ" | "pd" | "fd" | "gov" | "mil" | "unkonwn";
 

@@ -2,12 +2,15 @@ import { Button, Card, Checkbox, Col, Flex, Form, FormInstance, Input, Modal, Ro
 import { CloseOutlined } from '@ant-design/icons';
 import { ExEvent } from "@/Types/Event"
 import { InputItem } from "../Common/Inputs"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { CallConst } from "./EmergencyCallConst"
 
 
 import { testEvent } from "@/Dev/Test"
 import { Block } from "../Common/Block"
+import { CivField } from "@/App/Form/Civ/Civ";
+import { CIV } from "@/Types/User";
+import Q from "q";
 
 export const EmergencyCallModal = () => {
     return (
@@ -30,10 +33,21 @@ export const EmergencyCall = ({ event }: { event: ExEvent }) => {
     const [state, setState] = useState(false);
     const [form] = Form.useForm<ExEvent>();
 
+    //@ts-ignore
+    const onFinish = (values: any) => {
+        console.log('onFinish', values)
+    }
+
+    useEffect(() => {
+        Q.delay(1000).then(() => {
+            form.submit();
+        })
+    }, [event])
+
     return (
         <Flex className="flex-grow pos-rel">
             <Flex className="pos-abs-abut overflow-auto">
-                <Flex vertical>
+                <Flex className="flex-grow" vertical>
                     <Form
                         form={form}
                         initialValues={event}
@@ -41,14 +55,14 @@ export const EmergencyCall = ({ event }: { event: ExEvent }) => {
                         className="ex-form"
                         layout={"inline"}
 
-                        // onFinish={onFinish}
+                        onFinish={onFinish}
                         // onFinishFailed={onFinishFailed}
                         autoComplete="off"
                         requiredMark={false}
                     >
                         <Flex vertical gap={"small"} className="flex-grow">
                             <CallInfoBlock {...{ form, event }} />
-                            <CallSuspectBlock {...{ form, event }} />
+                            <CallSuspectBlock {...{ event }} />
                         </Flex>
                     </Form>
                 </Flex>
@@ -132,41 +146,44 @@ const CallInfoBlock = ({ form, event }: { form: FormInstance<ExEvent>, event: Ex
     )
 }
 
-const CallSuspectBlock = ({ form, event }: { form: FormInstance<ExEvent>, event: ExEvent }) => {
+const CallSuspectBlock = ({ event }: { event: ExEvent }) => {
     return (
-        <Block title={"嫌疑信息"} >
+        <Block title={"嫌疑人"} >
             <Row className="flex-grow" gutter={[0, 12]}>
                 <Col span={24}>
-                    <InputItem title={"嫌疑人"}>
-                        <Form.List name={"suspectPersons"}>
-                            {(fields, { add, remove }) => (
-                                <Flex vertical gap={"small"}>
-                                    {fields.map((field) => {
-                                        console.log(field)
-                                        return (<Card
-                                            size="small"
-                                            key={field.key}
-                                        // extra={
-                                        //     <CloseOutlined
-                                        //         onClick={() => {
-                                        //             remove(field.name);
-                                        //         }}
-                                        //     />
-                                        // }
-                                        >
-                                            <Form.Item label="Name" name={[field.name, 'name']}>
-                                                <Input />
-                                            </Form.Item>
-                                        </Card>)
-                                    }
-                                    )}
-                                    <Button type="dashed" onClick={() => add()} block>
-                                        + Add Item
-                                    </Button>
-                                </Flex>
-                            )}
-                        </Form.List>
-                    </InputItem>
+                    <Form.List name={"suspectPersons"}>
+                        {(fields, { add, remove }) => (
+                            <Flex vertical gap={"small"}>
+                                {fields.map((field) =>
+                                    <Card
+                                        className="pos-rel"
+                                        size="small"
+                                        key={field.key}
+                                        style={{ paddingRight: "12px", marginRight: "12px" }}
+                                    >
+                                        <CivField index={field.key} suspect item={event.suspectPersons[field.key] || {}} />
+                                        <Flex className="pos-abs-abut point-off">
+                                            <Flex className="ml-auto mb-auto" style={{ marginTop: "4px", marginRight: "4px" }}>
+                                                <Button
+                                                    className="point-on"
+                                                    type="text"
+                                                    style={{ padding: "0px 8px" }}
+                                                    onClick={() => {
+                                                        remove(field.name);
+                                                    }}
+                                                >
+                                                    <CloseOutlined />
+                                                </Button>
+                                            </Flex>
+                                        </Flex>
+                                    </Card>
+                                )}
+                                <Button type="dashed" onClick={() => add()} block>
+                                    添加嫌疑人
+                                </Button>
+                            </Flex>
+                        )}
+                    </Form.List>
                 </Col>
                 <Col span={24}>
                     <InputItem title={"嫌疑车辆"}>

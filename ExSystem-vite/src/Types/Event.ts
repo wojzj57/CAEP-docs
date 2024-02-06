@@ -1,6 +1,6 @@
 import { Location, Time } from "./Common";
-import { CIV, Officer } from "./User";
-import { Vehicle } from "./Vehicle";
+import { CIV, Officer, SuspectCIV } from "./User";
+import { SuspectVehicle, Vehicle } from "./Vehicle";
 
 export namespace ExEvent {
     export type Class =
@@ -69,8 +69,8 @@ export type ExEvent = {
     //#endregion
 
     //#region 案件车辆和人员
-    suspectVehicles: Vehicle[];
-    suspectPersons: CIV[];
+    suspectVehicles: SuspectVehicle[];
+    suspectPersons: SuspectCIV[];
     //#endregion
 
     pdOfficers: Officer[];

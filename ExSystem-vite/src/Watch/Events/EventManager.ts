@@ -7,6 +7,7 @@ import { CIV, Officer } from "@/Types/User";
 import { Vehicle } from "@/Types/Vehicle";
 import { Unit } from "@/Types/Unit";
 import { Location, Time } from "@/Types/Common";
+import { testEvent } from "@/Dev/Test";
 
 export class ExEventBulk implements ExEvent {
     id: string;
@@ -101,7 +102,7 @@ export class ExEventBulk implements ExEvent {
 class EventManager {
     private bulks: Map<string, ExEventBulk> = new Map();
     public unit?: Unit;
-    constructor() {}
+    constructor() { }
 
     response(): void;
     response(id: string): void;
@@ -151,3 +152,16 @@ class EventManager {
 }
 
 export const eventManager = new EventManager();
+
+// eventManager.unit = {
+//     id: '1',
+//     type: 'pd',
+//     sign: '1A1',
+
+//     status: 'onduty',
+//     location: { x: 0, y: 0 },
+
+// }
+// Q.delay(10).then(() => {
+//     eventManager.createEvent(testEvent);
+// });

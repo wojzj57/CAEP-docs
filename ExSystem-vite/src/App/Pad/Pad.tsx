@@ -24,8 +24,6 @@ const PadBody = ({ children }: { children: JSX.Element }) => {
     const { darkTheme } = appContext;
     const [power, setPower] = useState(true);
 
-    console.log(darkTheme)
-
     return (
         <Flex className="ex-pad-panel flex m-auto pos-rel point-off" style={{ height: "70%", width: "100%" }}>
             <Flex className="flex pos-abs-abut">

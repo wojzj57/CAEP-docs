@@ -38,10 +38,11 @@ export const testEvent: ExEvent = {
 
     //
     type: "211S",
+    title: "",
     desc: "发现、发生案件的时间、地点；现场的原始状态；有无采取措施；犯罪分子或可疑人员的人数、特点、作案工具、相关的车辆情况（颜色、车型、牌号等）、携带物品和逃跑的方向等等 发现、发生案件的时间、地点；现场的原始状态；有无采取措施；犯罪分子或可疑人员的人数、特点、作案工具、相关的车辆情况（颜色、车型、牌号等）、携带物品和逃跑的方向等等    发现、发生案件的时间、地点；现场的原始状态；有无采取措施；犯罪分子或可疑人员的人数、特点、作案工具、相关的车辆情况（颜色、车型、牌号等）、携带物品和逃跑的方向等等",
     notes: [],
 
-    suspectPersons: [testCiv, testCiv],
+    suspectPersons: [{}, {}],
     suspectVehicles: [testVehicle, testVehicle],
 
     pdOfficers: [],

@@ -1,19 +1,34 @@
+import { DateFormat } from "./Common";
+
 export type User = {
     id: string;
     name: string;
 };
 
 export type CIV = User & {
-    race: CIV.Race;
     gender: CIV.Gender;
-    birthday: string;
+    race: CIV.Race;
+    birthday: DateFormat;
     job: string;
     phone: string;
     postal: string;
     address: string;
 };
+
+export type SuspectCIV = {
+    id?: string;
+    name?: string;
+    gender?: CIV.Gender;
+    race?: CIV.Race;
+    birthday?: DateFormat;
+    job?: string;
+    phone?: string;
+    postal?: string;
+    address?: string;
+}
+
 export namespace CIV {
-    export type Race = "white" | "black" | "asian" | "latino"| 'arab' | "other";
+    export type Race = "white" | "black" | "asian" | "latino" | 'arab' | "other";
     export type Gender = "male" | "female";
 
     export const RaceStringMap = {
@@ -43,7 +58,7 @@ export namespace CIV {
             nowYear -
             Number(yaer) -
             (nowMonth > Number(month) ||
-            (nowMonth === Number(month) && nowDay >= Number(day))
+                (nowMonth === Number(month) && nowDay >= Number(day))
                 ? 0
                 : 1)
         );

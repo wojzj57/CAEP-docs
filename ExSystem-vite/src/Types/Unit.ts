@@ -25,7 +25,8 @@ export namespace Unit {
         | "offduty"
         | "emergency";
 }
-export type Unit = {
+export type Unit = Officer &
+{
     id: string;
     type: Unit.Type;
     sign: string;
@@ -33,8 +34,6 @@ export type Unit = {
     status: Unit.Status;
     location: Location;
 
-    officers: Officer[];
-    vehicles: Vehicle[];
-
+    vehicle?: Vehicle;
     responceID?: string;
 };
