@@ -1,4 +1,4 @@
-import { Location, Time } from "./Common";
+import { ExImage, Location, TimeFormat } from "./Common";
 import { CIV, Officer, SuspectCIV } from "./User";
 import { SuspectVehicle, Vehicle } from "./Vehicle";
 
@@ -21,13 +21,13 @@ export namespace ExEvent {
     export type Route = "911" | "radio" | "witness" | "site";
 
     export const ClassStringMap = {
-         "police": "Police",
-         "fire": "Fire",
-         "medical": "Medical",
-         "traffic": "Traffic",
-         "other": "Other",
-        "emergency": "Emergency",
-    }
+        police: "Police",
+        fire: "Fire",
+        medical: "Medical",
+        traffic: "Traffic",
+        other: "Other",
+        emergency: "Emergency",
+    };
 
     export const StatusStringMap = {
         pending: "等待",
@@ -56,7 +56,7 @@ export type ExEvent = {
     // 发生地址
     location: Location;
     // 发生时间
-    time: Time;
+    time: TimeFormat;
     //#endregion
 
     //#region 案件描述
@@ -66,6 +66,7 @@ export type ExEvent = {
     title: string;
     desc: string;
     notes: string[];
+    images: ExImage[];
     //#endregion
 
     //#region 案件车辆和人员

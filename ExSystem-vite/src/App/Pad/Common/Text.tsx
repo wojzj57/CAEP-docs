@@ -16,3 +16,9 @@ export const ExText = ({ children }: { children: string }) => {
         </Typography.Text>
     )
 }
+
+export const ExNote = ({ children }: { children: string }) => {
+    return (
+        <Typography.Text className="forbidden-act" type="secondary">{children}</Typography.Text>
+    )
+}
