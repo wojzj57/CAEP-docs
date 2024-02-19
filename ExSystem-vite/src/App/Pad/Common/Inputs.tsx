@@ -110,10 +110,11 @@ export const DateInput = ({ value, onChange }: { value?: string, onChange?: (dat
     )
 }
 
-export const ImageInput = ({ fields, add, remove }: {
+export const ImageInput = ({ fields, add, remove, disable }: {
     fields: FormListFieldData[],
     add: (image: ExImage) => void,
-    remove: (index: number) => void
+    remove: (index: number) => void,
+    disable: boolean
 }) => {
     const [hover, setHover] = useState(false);
     const hoverRef = useRef<boolean>(false);
@@ -131,6 +132,8 @@ export const ImageInput = ({ fields, add, remove }: {
 
     const pasteHandler = async (event: ClipboardEvent) => {
         try {
+            if (disable)
+                throw new Error("不可编辑")
             if (hoverRef.current && event.clipboardData) {
                 const file = event.clipboardData.files[0];
                 if (file && file.type == "image/png") {

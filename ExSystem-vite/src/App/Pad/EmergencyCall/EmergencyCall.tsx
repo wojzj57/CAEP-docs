@@ -29,6 +29,8 @@ export const EmergencyCallModal = () => {
 export const EmergencyCall = ({ event }: { event: ExEvent }) => {
     const [form] = Form.useForm<ExEvent>();
 
+    const [editable, setEditable] = useState<boolean>(false);
+
     //@ts-ignore
     const onFinish = (values: any) => {
         console.log('onFinish', values)
@@ -43,11 +45,11 @@ export const EmergencyCall = ({ event }: { event: ExEvent }) => {
                             form={form}
                             initialValues={event}
 
-                            className="ex-form"
+                            disabled={!editable}
+                            className={`ex-form ${editable ? undefined : "ex-form-disable"}`}
                             layout={"inline"}
 
                             onFinish={onFinish}
-                            // onFinishFailed={onFinishFailed}
                             autoComplete="off"
                             requiredMark={false}
                         >
@@ -81,6 +83,7 @@ const CallInfoBlock = () => {
                     <InputItem title={"呼叫类型"}>
                         <Form.Item<ExEvent>
                             name="class"
+                            rules={[{ required: true, message: '呼叫类型 不能为空' }]}
                         >
                             <Select
                                 options={CallConst.ClassOptions}
@@ -92,6 +95,7 @@ const CallInfoBlock = () => {
                     <InputItem title={"Code"}>
                         <Form.Item<ExEvent>
                             name="type"
+                            rules={[{ required: true, message: 'Code 不能为空' }]}
                         >
                             <SingleTagInput options={[]} />
                         </Form.Item>
@@ -101,6 +105,7 @@ const CallInfoBlock = () => {
                     <InputItem title={"呼叫位置"}>
                         <Form.Item<ExEvent>
                             name="postal"
+                            rules={[{ required: true, message: '呼叫位置 不能为空' }]}
                         >
                             <PostalInput />
                         </Form.Item>
@@ -110,6 +115,7 @@ const CallInfoBlock = () => {
                     <InputItem title={"呼叫标题"}>
                         <Form.Item<ExEvent>
                             name="title"
+                            rules={[{ required: true, message: '呼叫标题 不能为空' }]}
                         >
                             <Input />
                         </Form.Item>
@@ -152,7 +158,10 @@ const CallNotesBlock = () => {
                                     {
                                         fields.map((field) =>
                                             <Flex vertical key={field.key} className="pos-rel">
-                                                <Form.Item name={field.name} style={{ marginRight: "0px" }}>
+                                                <Form.Item
+                                                    name={field.name} style={{ marginRight: "0px" }}
+                                                    rules={[{ required: true, message: '备注信息 不能为空' }]}
+                                                >
                                                     <Input />
                                                 </Form.Item>
                                                 <Flex className="pos-abs-abut point-off">
@@ -210,7 +219,24 @@ const CallSuspectCivBlock = () => {
                                             key={field.key}
                                             style={{ paddingRight: "12px" }}
                                         >
-                                            <SuspectCivFields index={field.key} />
+                                            <Form.Item
+                                                name={field.key} style={{ marginRight: "0px" }}
+                                                rules={[{
+                                                    required: true, message: '信息不能全为空',
+                                                    validator: (rule, value, callback) => {
+                                                        return new Promise((resolve, reject) => {
+                                                            if (value == undefined)
+                                                                return reject();
+                                                            if (Object.values(value).filter((value) => {
+                                                                return !value;
+                                                            }).length == Object.values(value).length)
+                                                                return reject();
+                                                        })
+                                                    },
+                                                }]}
+                                            >
+                                                <SuspectCivFields index={field.key} />
+                                            </Form.Item>
                                             <Flex className="pos-abs-abut point-off">
                                                 <Flex className="ml-auto mb-auto" style={{ marginTop: "4px", marginRight: "4px" }}>
                                                     <CancelButton onClick={() => remove(field.name)} />
@@ -253,7 +279,24 @@ const CallSuspectVehicleBlock = () => {
                                     key={field.key}
                                     style={{ paddingRight: "12px" }}
                                 >
-                                    <SuspectVehiclesFields index={field.key} />
+                                    <Form.Item
+                                        name={field.key} style={{ marginRight: "0px" }}
+                                        rules={[{
+                                            required: true, message: '信息不能全为空',
+                                            validator: (rule, value, callback) => {
+                                                return new Promise((resolve, reject) => {
+                                                    if (value == undefined)
+                                                        return reject();
+                                                    if (Object.values(value).filter((value) => {
+                                                        return !value;
+                                                    }).length == Object.values(value).length)
+                                                        return reject();
+                                                })
+                                            },
+                                        }]}
+                                    >
+                                        <SuspectVehiclesFields index={field.key} />
+                                    </Form.Item>
                                     <Flex className="pos-abs-abut point-off">
                                         <Flex className="ml-auto mb-auto" style={{ marginTop: "4px", marginRight: "4px" }}>
                                             <CancelButton onClick={() => remove(field.name)} />
