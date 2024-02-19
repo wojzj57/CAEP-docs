@@ -253,9 +253,7 @@ const CallSuspectVehicleBlock = () => {
                                     key={field.key}
                                     style={{ paddingRight: "12px" }}
                                 >
-                                    <Form.Item name={field.name} style={{ marginRight: "0px" }}>
-                                        <SuspectVehiclesFields index={field.name} />
-                                    </Form.Item>
+                                    <SuspectVehiclesFields index={field.key} />
                                     <Flex className="pos-abs-abut point-off">
                                         <Flex className="ml-auto mb-auto" style={{ marginTop: "4px", marginRight: "4px" }}>
                                             <CancelButton onClick={() => remove(field.name)} />
