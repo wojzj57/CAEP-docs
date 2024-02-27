@@ -9,11 +9,11 @@ export const DevBase = ({ children }: DevBaseProps) => {
     const [resolution, setResolution] = useState<"1080p" | "2k" | "4k">("4k");
     return (
         <div className="flex pos-rel" style={{ height: "100%", width: "100%", backgroundImage: `./src/res/bg_${resolution}.png` }}>
-            {/* <img className="pos-abs"
+            <img className="pos-abs"
                 src={`./src/res/bg_${resolution}.png`}
-                style={{ height: "100%", width: "100%" }}
+                style={{ height: "100%", width: "100%", zIndex: 0 }}
             ></img>
-            <div className="pos-abs" style={{
+            {/* <div className="pos-abs" style={{
                 bottom: "10px",
                 right: "10px",
             }}>
@@ -22,8 +22,8 @@ export const DevBase = ({ children }: DevBaseProps) => {
                     <Button onClick={() => setResolution("2k")}>2k</Button>
                     <Button onClick={() => setResolution("4k")}>4k</Button>
                 </Flex>
-            </div>
-            <DevRef /> */}
+            </div> */}
+            {/* <DevRef /> */}
             {children}
         </div >
     )

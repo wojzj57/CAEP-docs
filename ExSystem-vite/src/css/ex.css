@@ -147,6 +147,10 @@ div,
     margin-bottom: auto;
 }
 
+.m-none {
+    margin: 0;
+}
+
 /* Reaction */
 .forbidden-drag,
 .forbidden-act {
