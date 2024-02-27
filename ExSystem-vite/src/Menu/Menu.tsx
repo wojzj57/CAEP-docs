@@ -33,11 +33,32 @@ const MenuPage = () => {
                     vertical
                     gap={"small"}
                 >
-                    <Typography.Text>23</Typography.Text>
-                    <Typography.Text>23</Typography.Text>
-                    <Typography.Text>23</Typography.Text>
-                    <Typography.Text>23</Typography.Text>
+                    <MenuItem desc="Dashboard">
+                        <Flex className="flex-grow">
+                            <Typography.Text>23</Typography.Text>
+                        </Flex>
+                    </MenuItem>
+                    <MenuItem desc="Dashboardxxxxc2" active>
+                        <Flex className="flex-grow">
+                            <Typography.Text>23</Typography.Text>
+                        </Flex>
+                    </MenuItem>
                 </Flex>
+            </Flex>
+        </Flex>
+    )
+}
+
+export const MenuItem = ({ active, desc, children }: { active?: boolean, desc: string, children: JSX.Element }) => {
+    return (
+        <Flex className={`flex-grow forbidden-act ex-menu-item ${active ? " ex-menu-item-active" : undefined}`} gap={"small"}>
+            <Flex className="my-auto"
+                style={{ width: "80px" }}
+            >
+                <Typography.Text>{desc}</Typography.Text>
+            </Flex>
+            <Flex className="flex-grow my-auto" vertical>
+                {children}
             </Flex>
         </Flex>
     )
