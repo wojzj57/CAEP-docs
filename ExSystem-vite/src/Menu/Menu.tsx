@@ -1,6 +1,33 @@
 import { ConfigProvider, Flex, Typography, theme } from "antd"
 
 import "./Menu.less"
+import { ExMenuPage } from "./Page"
+import { getMenuItem } from "./MenuComponents";
+import React, { useEffect, useState } from "react";
+
+const testPage = new ExMenuPage("XSC");
+testPage.items = [
+    {
+        title: "Dashboard", component: {
+            type: "button",
+            enterHandler: () => {
+                console.log("enter 1")
+            },
+            desc: "Dashboard"
+        }
+    },
+    {
+        type: "divider"
+    },
+    {
+        title: "DashboardXX", component: {
+            type: "button",
+            enterHandler: () => {
+                console.log("enter 2")
+            },
+        }
+    },
+]
 
 export const ExMenu = () => {
     return (
@@ -9,15 +36,46 @@ export const ExMenu = () => {
         }}
         >
             <MenuArea>
-                <MenuPage />
+                <MenuPage page={testPage} />
             </MenuArea>
         </ConfigProvider >
     )
 }
 
-const MenuPage = () => {
+
+// const MenuPageRef = React.createRef
+const MenuPage = ({ page }: { page: ExMenuPage }) => {
+    const [state, setState] = useState(0);
+
+    const upHandler = () => {
+        const index = page.indexUp();
+        setState(index);
+    }
+    const downHandler = () => {
+        const index = page.indexDown();
+        setState(index);
+    }
+    const enterHandler = () => {
+        page.ender();
+    }
+
+    useEffect(() => {
+        const eventListener = (e: KeyboardEvent) => {
+            if ((e.key == "Enter" || e.key == " "))
+                return enterHandler()
+            if (e.key == "ArrowUp")
+                return upHandler()
+            if (e.key == "ArrowDown")
+                return downHandler()
+        }
+        document.addEventListener('keydown', eventListener)
+        return () => {
+            document.removeEventListener('keydown', eventListener)
+        }
+    }, [])
+
     return (
-        <Flex className="ex-menu-page" vertical>
+        <Flex className="ex-menu-page forbidden-act" vertical>
             <Flex className="ex-menu-panel"
                 vertical
                 gap={"small"}
@@ -26,30 +84,34 @@ const MenuPage = () => {
                     style={{ paddingTop: "8px", paddingBottom: "4px" }}
                 >
                     <Typography.Title className="m-none" level={3}>
-                        Menu
+                        {page.title}
                     </Typography.Title>
                 </Flex>
                 <Flex
                     vertical
                     gap={"small"}
                 >
-                    <MenuItem desc="Dashboard">
-                        <Flex className="flex-grow">
-                            <Typography.Text>23</Typography.Text>
+                    {page.items.map((item, index) =>
+                        <Flex key={index} vertical className="flex-grow">
+                            {
+                                item.type == "divider" ?
+                                    <MenuDivider />
+                                    :
+                                    <MenuItem desc={item.title} active={page.index == index}>
+                                        {
+                                            getMenuItem(item.component)
+                                        }
+                                    </MenuItem>
+                            }
                         </Flex>
-                    </MenuItem>
-                    <MenuItem desc="Dashboardxxxxc2" active>
-                        <Flex className="flex-grow">
-                            <Typography.Text>23</Typography.Text>
-                        </Flex>
-                    </MenuItem>
+                    )}
                 </Flex>
             </Flex>
         </Flex>
     )
 }
 
-export const MenuItem = ({ active, desc, children }: { active?: boolean, desc: string, children: JSX.Element }) => {
+export const MenuItem = ({ active, desc, children }: { active?: boolean, desc: string, children: JSX.Element | undefined }) => {
     return (
         <Flex className={`flex-grow forbidden-act ex-menu-item ${active ? " ex-menu-item-active" : undefined}`} gap={"small"}>
             <Flex className="my-auto"
@@ -60,6 +122,14 @@ export const MenuItem = ({ active, desc, children }: { active?: boolean, desc: s
             <Flex className="flex-grow my-auto" vertical>
                 {children}
             </Flex>
+        </Flex>
+    )
+}
+
+export const MenuDivider = () => {
+    return (
+        <Flex className={`flex-grow forbidden-act ex-menu-divider`} gap={"small"}>
+            <div className="flex-grow ex-menu-divider-line" />
         </Flex>
     )
 }
