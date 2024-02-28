@@ -3,7 +3,7 @@ import { ConfigProvider, Flex, Typography, theme } from "antd"
 import "./Menu.less"
 import { ExMenuPage } from "./Page"
 import { getMenuItem } from "./MenuComponents";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const testPage = new ExMenuPage("XSC");
 testPage.items = [
@@ -20,7 +20,87 @@ testPage.items = [
         type: "divider"
     },
     {
-        title: "DashboardXX", component: {
+        title: "1", component: {
+            type: "button",
+            enterHandler: () => {
+                console.log("enter 2")
+            },
+        }
+    },
+    {
+        title: "2", component: {
+            type: "button",
+            enterHandler: () => {
+                console.log("enter 2")
+            },
+        }
+    },
+    {
+        title: "3", component: {
+            type: "button",
+            enterHandler: () => {
+                console.log("enter 2")
+            },
+        }
+    },
+    {
+        title: "4", component: {
+            type: "button",
+            enterHandler: () => {
+                console.log("enter 2")
+            },
+        }
+    },
+    {
+        title: "5", component: {
+            type: "button",
+            enterHandler: () => {
+                console.log("enter 2")
+            },
+        }
+    },
+    {
+        title: "6", component: {
+            type: "button",
+            enterHandler: () => {
+                console.log("enter 2")
+            },
+        }
+    },
+    {
+        title: "7", component: {
+            type: "button",
+            enterHandler: () => {
+                console.log("enter 2")
+            },
+        }
+    },
+    {
+        title: "8", component: {
+            type: "button",
+            enterHandler: () => {
+                console.log("enter 2")
+            },
+        }
+    },
+    {
+        title: "9", component: {
+            type: "button",
+            enterHandler: () => {
+                console.log("enter 2")
+            },
+        }
+    },
+    {
+        title: "10", component: {
+            type: "button",
+            enterHandler: () => {
+                console.log("enter 2")
+            },
+        }
+    },
+    {
+        title: "11", component: {
             type: "button",
             enterHandler: () => {
                 console.log("enter 2")
@@ -46,17 +126,24 @@ export const ExMenu = () => {
 // const MenuPageRef = React.createRef
 const MenuPage = ({ page }: { page: ExMenuPage }) => {
     const [state, setState] = useState(0);
+    const flag = useRef(0);
+    const viewCount = page.options.viewCount;
 
     const upHandler = () => {
         const index = page.indexUp();
+        if (flag.current > index) flag.current = index;
+        else if (index - viewCount > flag.current) flag.current = index - viewCount;
         setState(index);
     }
     const downHandler = () => {
         const index = page.indexDown();
+        if (flag.current < index - viewCount) flag.current = index - viewCount;
+        else if (index == 0) flag.current = 0;
         setState(index);
     }
+    
     const enterHandler = () => {
-        page.ender();
+        page.enter();
     }
 
     useEffect(() => {
@@ -92,7 +179,9 @@ const MenuPage = ({ page }: { page: ExMenuPage }) => {
                     gap={"small"}
                 >
                     {page.items.map((item, index) =>
-                        <Flex key={index} vertical className="flex-grow">
+                        <Flex key={index} vertical className="flex-grow"
+                            style={{ display: index < flag.current || index > flag.current + viewCount ? "none" : "flex" }}
+                        >
                             {
                                 item.type == "divider" ?
                                     <MenuDivider />
