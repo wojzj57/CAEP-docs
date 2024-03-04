@@ -110,11 +110,11 @@ export const DateInput = ({ value, onChange }: { value?: string, onChange?: (dat
     )
 }
 
-export const ImageInput = ({ fields, add, remove, disable }: {
+export const ImageInput = ({ fields, add, remove, disable = false }: {
     fields: FormListFieldData[],
     add: (image: ExImage) => void,
     remove: (index: number) => void,
-    disable: boolean
+    disable?: boolean
 }) => {
     const [hover, setHover] = useState(false);
     const hoverRef = useRef<boolean>(false);
