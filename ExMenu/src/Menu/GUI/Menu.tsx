@@ -50,7 +50,7 @@ type MenuPageRef = {
 }
 export const MenuPageRef = createRef<MenuPageRef>();
 const MenuPage = forwardRef<MenuPageRef>((props, ref) => {
-    const [state, setState] = useState(0);
+    const [state, setState] = useState(-1);
     const [page, setPage] = useState<ExPages | undefined>();
 
     const flag = useRef(0);
@@ -59,7 +59,8 @@ const MenuPage = forwardRef<MenuPageRef>((props, ref) => {
 
     const render = (page: ExPages) => {
         setPage(page);
-        setState(state + 1)
+        setState(-1)
+        console.log(page)
         if (page.type == "menu") {
             const menu = page as ExMenu;
             mainPage.current = menu;
@@ -72,7 +73,7 @@ const MenuPage = forwardRef<MenuPageRef>((props, ref) => {
     const hide = () => {
         if (context.focus) return
         setPage(undefined);
-        setState(0);
+        setState(-1);
         if (mainPage.current) {
             const menu = mainPage.current as ExMenu;
             if (menu.options.hideCallback) {
@@ -86,12 +87,12 @@ const MenuPage = forwardRef<MenuPageRef>((props, ref) => {
     const context = useContext(MenuPageContext);
     context.focus = focus.current;
     context.reset = () => {
-        context.upHandler = function () { };
-        context.downHandler = function () { };
-        context.leftHandler = function () { };
-        context.rightHandler = function () { };
-        context.enterHandler = function () { };
-        context.backHandler = function () { };
+        context.upHandler = undefined;
+        context.downHandler = undefined;
+        context.leftHandler = undefined;
+        context.rightHandler = undefined;
+        context.enterHandler = undefined;
+        context.backHandler = undefined;
     }
     context.render = render;
 
@@ -124,20 +125,25 @@ const MenuPage = forwardRef<MenuPageRef>((props, ref) => {
 
     const enterHandler = () => {
         if (context.enterHandler) context.enterHandler();
-        if (context.focus) return
-        if (!page) return;
+        if (context.focus || !page) return
     }
 
     const leftHandler = () => {
-        if (context.leftHandler) context.leftHandler();
-        if (context.focus) return
-        if (!page) return;
+        if (context.leftHandler) {
+            context.leftHandler();
+            return;
+        }
+        if (context.focus || !page) return
+        backHandler();
     }
 
     const rightHandler = () => {
-        if (context.rightHandler) context.rightHandler();
-        if (context.focus) return
-        if (!page) return;
+        if (context.rightHandler) {
+            context.rightHandler();
+            return;
+        }
+        if (context.focus || !page) return
+        enterHandler();
     }
 
 

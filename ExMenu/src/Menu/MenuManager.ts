@@ -28,4 +28,7 @@ window.addEventListener("keydown", (e) => {
     if (e.key == "F2") {
         menuManager.render("test");
     }
+    if (e.key == "F4") {
+        menuManager.render("test2");
+    }
 });

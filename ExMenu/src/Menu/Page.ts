@@ -32,11 +32,17 @@ class ExBasePage {
         return this._items;
     }
     public set items(items: Array<ExMenuItems>) {
-        for (let i = 0; i < items.length; i++) {
-            if (items[i].type == "page") {
-                (items[i] as ExMenuPage).page.parent = this;
+        const setItemPageParent = (items: Array<ExMenuItems>, parent: ExPage) => {
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type == "page") {
+                    const page = (items[i] as ExMenuPage).page;
+                    page.parent = parent;
+                    setItemPageParent(page.items, page);
+                }
             }
         }
+
+        setItemPageParent(items, this);
         this._items = items;
     }
 
