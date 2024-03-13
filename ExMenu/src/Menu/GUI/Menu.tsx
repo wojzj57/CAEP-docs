@@ -5,7 +5,7 @@ import { ConfigProvider, Flex, Typography, theme } from "antd"
 import { ExPages, ExMenu, ExPage } from "../Page"
 import { MenuPageComponent, getMenuItem } from "./MenuComponents";
 import { createContext, createRef, forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState } from "react";
-import { ViewCount } from "../Const";
+import { ViewCount } from "../MenuList/Config";
 
 import "../MenuManager";
 

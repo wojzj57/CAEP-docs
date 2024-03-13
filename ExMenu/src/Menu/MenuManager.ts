@@ -1,4 +1,4 @@
-import { MenuMap } from "./Const";
+import { MenuMap } from "./MenuList/Config";
 import { MenuPageRef } from "./GUI/Menu";
 import { ExMenu } from "./Page";
 
@@ -7,7 +7,7 @@ export type MenuPageRef = {
     hide: () => void;
 }
 
-class MenuManager {
+export class MenuManager {
     public menuMap: { [key: string]: ExMenu } = {};
 
     constructor() {
@@ -22,13 +22,3 @@ class MenuManager {
         MenuPageRef.current?.render(page);
     }
 }
-export const menuManager = new MenuManager();
-
-window.addEventListener("keydown", (e) => {
-    if (e.key == "F2") {
-        menuManager.render("test");
-    }
-    if (e.key == "F4") {
-        menuManager.render("test2");
-    }
-});

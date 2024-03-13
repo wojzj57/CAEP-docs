@@ -1,4 +1,3 @@
-import { menuManager } from "./MenuManager";
 import { ExMenu, ExPage } from "./Page";
 
 export const ViewCount = 7;
