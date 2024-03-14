@@ -238,7 +238,7 @@ export const MenuItem = ({ active, desc, children }: { active?: boolean, desc: s
     return (
         <Flex className={`flex-grow forbidden-act ex-menu-item ${active ? " ex-menu-item-active" : undefined}`} gap={"small"}>
             <Flex className="my-auto"
-                style={{ width: "80px" }}
+                style={{ width: "150px" }}
             >
                 <Typography.Text>{desc}</Typography.Text>
             </Flex>

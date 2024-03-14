@@ -25,11 +25,11 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("message",(res)=>{
     let data = res.data
 
-    switch(data.hotkey){
+    switch(data.type){
         case "f9":
             menuManager.render("MarkoMods")
             return
         default:
-            console.log("not bind page key:",data.hotkey)
+            console.log("not bind page key:",data.type)
     }
 })
