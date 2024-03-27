@@ -50,7 +50,7 @@ export const MenuPageComponent = ({
     return () => {
       context.reset();
     };
-  }, [page]);
+  }, [page, active]);
 
   return (
     <Flex className="flex-grow">
@@ -124,7 +124,7 @@ export const MenuToggle = ({
     return () => {
       context.reset();
     };
-  }, [active]);
+  }, [component, active]);
 
   return (
     <Flex className="flex-grow">
@@ -168,7 +168,7 @@ export const MenuNumber = ({
     return () => {
       context.reset();
     };
-  }, [active]);
+  }, [component, active]);
 
   return (
     <Flex className="flex-grow">
@@ -244,7 +244,7 @@ export const MenuOptions = ({
     return () => {
       context.reset();
     };
-  }, [active]);
+  }, [component, active]);
 
   return (
     <Flex className="flex-grow">
@@ -309,7 +309,7 @@ export const MenuInput = ({
       inputRef.current?.blur();
       context.reset();
     };
-  }, [active]);
+  }, [component, active]);
 
   return (
     <Flex className="flex-grow">

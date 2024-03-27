@@ -1,19 +1,8 @@
-import { ExMenu } from "../Page";
-import { MenuManager } from "../MenuManager";
+import { menuManager } from "../MenuManager";
 
 import MarkoMods from "./F9_MarkoMods";
 
-export const ViewCount = 7;
-
-export const MenuMap: { [key: string]: { hotkey: string; menu: ExMenu } } = {
-  MarkoMods: {
-    hotkey: "f9",
-    menu: MarkoMods,
-  },
-};
-
-const menuManager = new MenuManager();
-
+menuManager.addMenu("MarkoMods", MarkoMods);
 window.addEventListener("keydown", (e) => {
   if (e.key == "F9") {
     menuManager.show("MarkoMods");

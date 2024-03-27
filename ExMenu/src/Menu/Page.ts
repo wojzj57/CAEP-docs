@@ -23,6 +23,8 @@ export class ExBasePage {
     items: Array<ExMenuItems> = new Array<ExMenuItems>()
   ) {
     this._items = items;
+    if (this._items[this.index] && this._items[this.index].type == "divider")
+      this._indexDown();
   }
 
   public get items() {
@@ -41,7 +43,9 @@ export class ExBasePage {
 
     setItemPageParent(items, this);
     this._items = items;
+    if (this._items[this.index].type == "divider") this._indexDown();
   }
+
   public get length() {
     return this.items.length;
   }
