@@ -3,6 +3,8 @@ import "./css/ex.css"
 
 import { MenuGUI } from './Menu/GUI/Menu';
 
+import "./Menu/MenuList/Config"
+
 
 createRoot(document.getElementById('root') as HTMLElement)
     .render(
